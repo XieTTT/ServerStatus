@@ -1,0 +1,40 @@
+spring:
+  thymeleaf:
+    cache: false
+  messages:
+    basename: i18n.login
+  datasource:
+    url: jdbc:h2:file:~/.server-status/db/Server-Status
+    username: admin
+    password: 123456
+    driver-class-name: org.h2.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    schema: classpath:sql/server-status.sql
+  h2:
+    console:
+        enabled: false
+#tomcat port
+server:
+  port: 80
+#
+logging:
+  level:
+    run.serverstatus.app: INFO
+  file:
+    path: ${user.home}/.server-status/logs
+#server-status properties
+serverstatus:
+  language: Chinese # Chinese or English
+  dateFormat: yyyy-MM-dd HH:mm:ss
+  hostName: My Server
+  mark: version 1.0
+  processNum: 10 # <=10
+  mail:
+    host: smtp.qq.com
+    username: server_message@foxmail.com
+    password: yckqzpastryybebe
+    from: Server-Status
+    to:
+#  account:
+#    username: admin
+#    password: 123456

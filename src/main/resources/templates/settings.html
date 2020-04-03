@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>DASHBOARD | Server-Status</title>
+    <!--    &lt;!&ndash; Favicon&ndash;&gt;
+        <link rel="icon" href="favicon.ico" th:href="${resource}" type="image/x-icon">-->
+    <!---->
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet"
+          type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+
+    <!-- Bootstrap Core Css -->
+    <link href="../static/plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+    <!-- Waves Effect Css -->
+    <link href="../static/plugins/node-waves/waves.css" rel="stylesheet"/>
+
+    <!-- Animation Css -->
+    <link href="../static/plugins/animate-css/animate.css" rel="stylesheet"/>
+
+    <!--  -->
+
+    <!-- Animation Css -->
+    <link href="../static/plugins/animate-css/animate.css" rel="stylesheet"/>
+
+
+    <!-- Bootstrap Select Css -->
+    <link href="../static/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet"/>
+
+    <!-- Custom Css -->
+    <link href="../static/asserts/css/style.css" rel="stylesheet">
+
+    <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
+    <link href="../static/asserts/css/themes/all-themes.css" rel="stylesheet"/>
+</head>
+
+<body class="theme-black">
+<!-- Page Loader -->
+<div class="page-loader-wrapper">
+    <div class="loader">
+        <div class="preloader">
+            <div class="spinner-layer pl-red">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+        </div>
+        <p>Please wait...</p>
+    </div>
+</div>
+<!-- #END# Page Loader -->
+<!-- Overlay For Sidebars -->
+<div class="overlay"></div>
+<!-- #END# Overlay For Sidebars -->
+<!-- Top Bar -->
+<nav class="navbar">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse"
+               data-target="#navbar-collapse" aria-expanded="false"></a>
+            <a href="javascript:void(0);" class="bars"></a>
+            <a class="navbar-brand" href="/server-status/server-status.main/templates/home.html">Server-Status</a>
+        </div>
+        <div class="collapse navbar-collapse" id="navbar-collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="https://www.baidu.com"><i class="material-icons">input</i></a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- #Top Bar -->
+<section>
+    <!-- Left Sidebar -->
+    <aside id="leftsidebar" class="sidebar">
+        <!-- Menu -->
+        <div class="menu">
+            <ul class="list">
+                <li class="active">
+                    <a href="/server-status/server-status.main/templates/home.html" th:href="@{/home}">
+                        <i class="material-icons">home</i>
+                        <span>Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/server-status/server-status.main/templates/moreDetails.html" th:href="@{/moreDetails}">
+                        <i class="material-icons">text_fields</i>
+                        <span>More Details</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/server-status/server-status.main/templates/graph.html" th:href="@{/graph}">
+                        <i class="material-icons">show_chart</i>
+                        <span>Graph</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/server-status/server-status.main/templates/settings.html" th:href="@{/settings}">
+                        <i class="material-icons">settings_applications</i>
+                        <span>Settings</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/server-status/server-status.main/templates/schedule.html" th:href="@{/schedule}">
+                        <i class="material-icons">schedule</i>
+                        <span>Schedule</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://github.com/XieTTT/ServerStatus">
+                        <i class="material-icons">star</i>
+                        <span>Star</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!-- #Menu -->
+        <!-- Footer -->
+        <div class="legal">
+            <div class="copyright">
+                &copy; 2019 - 2020 <a href="javascript:void(0);">Server-Status</a>.
+            </div>
+            <div class="version">
+                <b>Version: </b> 1.0
+            </div>
+        </div>
+        <!-- #Footer -->
+    </aside>
+    <!-- #END# Left Sidebar -->
+
+</section>
+
+<section class="content">
+    <!-- Select -->
+    <div class="row clearfix">
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div class="card">
+                <div class="header">
+                    <h2>
+                        Application SETTINGS
+                    </h2>
+                </div>
+                <div class="body">
+                    <form method="POST" action="" id="settings">
+                        <div class="form-group form-float">
+                            <div class="row clearfix">
+                                <div class="col-sm-12"><strong>
+                                    ProcessNum:</strong><select class="form-control show-tick" name="processNum" id="processNum">
+                                    <option value="7">-- Please Select --</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                </select>
+                                </div>
+                                <div class="col-sm-12"><strong>
+                                    Info Language:</strong><select class="form-control show-tick" name="language" id="language">
+                                    <option value="1">-- Please Select --</option>
+                                    <option value="0">Chinese</option>
+                                    <option value="1">English</option>
+                                </select>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <div class="form-line"><strong>
+                                            Hostname:</strong><input class="form-control" name="hostname"
+                                                            maxlength="20" minlength="1" required
+                                                            placeholder="  hostname" id="hostname"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <div class="form-line"><strong>
+                                            Mark:</strong><input type="text" class="form-control" name="mark" maxlength="20"
+                                                        minlength="1" required
+                                                        placeholder="  mark" id="mark"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary waves-effect" type="submit">SUBMIT</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Advanced Validation -->
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div class="card">
+                <div class="header">
+                    <h2>MAIL SETTINGS</h2>
+                    <ul class="header-dropdown m-r--5">
+                    </ul>
+                </div>
+                <div class="body">
+                    <form id="mailSettings">
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <input type="text" class="form-control" name="host" maxlength="20" minlength="10"
+                                       required>
+                                <label class="form-label">Host:</label>
+                            </div>
+                            <div class="help-info">e.g. smtp.qq.com</div>
+                        </div>
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <input type="email" name="sender" class="form-control" maxlength="100" minlength="1"
+                                       required id="sender">
+                                <label class="form-label">Sender:</label>
+                            </div>
+                            <div class="help-info">e.g. *** @qq.com</div>
+                        </div>
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <input type="text" class="form-control" name="aPassword" min="1" max="100" required>
+                                <label class="form-label">Authorization Password:</label>
+                            </div>
+                            <div class="help-info">not a password</div>
+                        </div>
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <input type="text" class="form-control" name="senderName" min="1" max="20" required>
+                                <label class="form-label">senderName:</label>
+                            </div>
+                            <div class="help-info">whatever u like</div>
+                        </div>
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <input type="email" class="form-control" name="recipient" required id="recipient">
+                                <label class="form-label">Recipient</label>
+                            </div>
+                            <div class="help-info">e.g. *** @qq.com</div>
+                        </div>
+                        <button class="btn btn-primary waves-effect" type="submit" id="maiSettings">SUBMIT</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- #END# Advanced Validation -->
+        <!-- Textarea -->
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>MAIL TESTING</h2>
+                    </div>
+                    <div class="body">
+                        <form method="POST" id="mailTesting">
+                            <h2 class="card-inside-title">
+                                Content</h2>
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <textarea rows="3" class="form-control no-resize auto-growth"
+                                              name="content" id="testingMail"
+                                              placeholder="Please type what you want... " maxlength="1000" minlength="1"
+                                              required></textarea>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary waves-effect" type="submit">SendMail</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- #END# Textarea -->
+    </div>
+    <!-- #END# Select -->
+
+</section>
+
+
+<!-- Jquery Core Js -->
+<script src="../static/plugins/jquery/jquery.min.js"></script>
+
+<!-- Bootstrap Core Js -->
+<script src="../static/plugins/bootstrap/js/bootstrap.js"></script>
+
+<!-- Select Plugin Js -->
+<script src="../static/plugins/bootstrap-select/js/bootstrap-select.js"></script>
+
+<!-- Bootstrap Notify Plugin Js -->
+<script src="../static/plugins/bootstrap-notify/bootstrap-notify.js"></script>
+
+<!-- Waves Effect Plugin Js -->
+<script src="../static/plugins/node-waves/waves.js"></script>
+
+<!-- Custom Js -->
+<script src="../static/asserts/js/admin.js"></script>
+
+<script>
+
+    $(function () {
+        $("#settings").submit(function () {
+            $.post("appSettings", $(this).serialize(), function (data) {
+                if (data.flag) {
+                    showNotification("alert-info", data.info, "top", "center", "", "");
+                }
+            }, "json");
+            return false;
+        });
+
+        $("#mailSettings").submit(function () {
+            $.post("mailSettings", $(this).serialize(), function (data) {
+                if (data.flag) {
+                    showNotification("alert-info", data.info, "top", "center", "", "");
+                }
+            }, "json");
+            return false;
+        });
+
+        $("#mailTesting").submit(function () {
+            $.get("mailTesting", $(this).serialize(), function (data) {
+                if (data.flag) {
+                    showNotification("alert-info", data.info, "top", "center", "", "");
+                }
+            }, "json");
+            return false;
+        })
+    });
+
+
+    function showNotification(colorName, text, placementFrom, placementAlign, animateEnter, animateExit) {
+        if (colorName === null || colorName === '') {
+            colorName = 'bg-black';
+        }
+        if (text === null || text === '') {
+            text = 'Turning standard Bootstrap alerts';
+        }
+        if (animateEnter === null || animateEnter === '') {
+            animateEnter = 'animated fadeInDown';
+        }
+        if (animateExit === null || animateExit === '') {
+            animateExit = 'animated fadeOutUp';
+        }
+        var allowDismiss = true;
+
+        $.notify({
+                message: text
+            },
+            {
+                type: colorName,
+                allow_dismiss: allowDismiss,
+                newest_on_top: true,
+                timer: 2000,
+                placement: {
+                    from: placementFrom,
+                    align: placementAlign
+                },
+                animate: {
+                    enter: animateEnter,
+                    exit: animateExit
+                },
+                template: '<div data-notify="container" class="bootstrap-notify-container alert alert-dismissible {0} ' + (allowDismiss ? "p-r-35" : "") + '" role="alert">' +
+                    '<button type="button" aria-hidden="true" class="close" data-notify="dismiss">×</button>' +
+                    '<span data-notify="icon"></span> ' +
+                    '<span data-notify="title">{1}</span> ' +
+                    '<span data-notify="message">{2}</span>' +
+                    '<div class="progress" data-notify="progressbar">' +
+                    '<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
+                    '</div>' +
+                    '<a href="{3}" target="{4}" data-notify="url"></a>' +
+                    '</div>'
+            });
+    }</script>
+
+<!-- Select Plugin Js -->
+<script src="../static/plugins/bootstrap-select/js/bootstrap-select.js"
+        th:src="@{/static/plugins/bootstrap-select/js/bootstrap-select.js}"></script>
+<!-- Autosize Plugin Js -->
+<script src="../static/plugins/autosize/autosize.js" th:src="@{/static/plugins/autosize/autosize.js}"></script>
+
+</body>
+
+</html>
