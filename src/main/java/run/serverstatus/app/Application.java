@@ -11,7 +11,7 @@ public class Application {
     private static ConfigurableApplicationContext CONTEXT;
 
     public static void main(String[] args) {
-        // Run application
+        // Run Application
         CONTEXT = SpringApplication.run(Application.class, args);
     }
 
@@ -19,3 +19,4 @@ public class Application {
         return CONTEXT;
     }
 }
+/**/
