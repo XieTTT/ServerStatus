@@ -1,6 +1,7 @@
 package run.serverstatus.app.controller;
 
 import com.alibaba.fastjson.JSON;
+import lombok.extern.slf4j.Slf4j;
 import oshi.util.Util;
 import run.serverstatus.app.entities.properties.Account;
 import run.serverstatus.app.service.Impl.IndexServiceImpl;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @Controller
 public class IndexController {
 
@@ -58,11 +60,17 @@ public class IndexController {
     @PostMapping("/register")
     @ResponseBody
     public String register(@RequestParam String username, @RequestParam String password, @RequestParam String recipient) {
-        System.out.println(username + "    " + password + "  " + recipient);
+        log.info(username + "    " + password + "  " + recipient);
+        if (!indexService.isFirstTimeSignIn()){
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("flag", false);
+            map.put("msg","Sorry, Only one account is allowed！");
+            return JSON.toJSONString(map);
+        }
         Account account = context.getBean("account", Account.class);
         account.setUsername(username);
         account.setPassword(password);
-        /*正则 recipient*/
+        /* TODO  正则 recipient*/
         indexService.insertAccount(account);
         indexService.updateMailSettingsTo(recipient);
         //Send boot info email
@@ -71,7 +79,5 @@ public class IndexController {
         HashMap<String, Object> map = new HashMap<>();
         map.put("flag", true);
         return JSON.toJSONString(map);
-
-
     }
 }

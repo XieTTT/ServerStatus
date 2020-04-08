@@ -35,7 +35,7 @@
         <div class="card">
             <div class="body">
                 <form id="sign_in" method="POST" th:action="@{/login}">
-                    <div class="msg">Sign in to start your session</div>
+                    <div class="msg">Sign In For More Function</div>
                     <div class="input-group">
                         <span class="input-group-addon">
                             <i class="material-icons">person</i>
@@ -63,11 +63,8 @@
                     </div>
                     <div class="row m-t-15 m-b--20">
                         <div class="col-xs-6">
-                            <a href="sign-up.html">Register Now!</a>
-                        </div>
-                        <div class="col-xs-6 align-right">
-                            <a href="forgot-password.html">Forgot Password?</a>
-                        </div>
+                            <a href="sign-up.html" th:href="@{/sign-up}">Register Now!</a>
+                        </div>`
                     </div>
                 </form>
 
