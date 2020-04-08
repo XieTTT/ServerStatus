@@ -47,9 +47,4 @@ public class MailUtil {
         properties.put("mail.smtp.host", mailSettings.getHost());
         OhMyEmail.config(properties, mailSettings.getUsername(), mailSettings.getPassword());
     }
-
-/*    public static void main(String[] args) {
-        boolean b = new MailUtil().sendMail("dsds", "dsdsd");
-        System.out.println(b);
-    }*/
 }
