@@ -78,24 +78,7 @@ CREATE TABLE `LineChartHourInfo`(
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Table structure for BootInfo
--- ----------------------------
-DROP TABLE IF EXISTS `BaseInfo`;
-CREATE TABLE `BaseInfo`(
-    `id` INT(11) NOT NULL AUTO_INCREMENT, -- 主键
-    mark varchar (50) NOT NULL,
-    intranetIp varchar(20) NOT NULL,
-    publicIp varchar(20) NOT NULL,
-    osName varchar(20) NOT NULL,
-    osUptime VARCHAR (20) NOT NULL ,
-    appBootTime varchar(20) NOT NULL,
-    osBootTime varchar(20) NOT NULL,
-    hostname varchar(30) NOT NULL,
-    PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Table structure for BootInfo
+-- Table structure for StaticInfo
 -- ----------------------------
 DROP TABLE IF EXISTS `Settings`;
 CREATE TABLE `Settings`(

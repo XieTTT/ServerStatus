@@ -1,6 +1,6 @@
 package run.serverstatus.app.schedule.sendMail;
 
-import run.serverstatus.app.entities.info.BootInfo;
+import run.serverstatus.app.entities.info.StaticInfo;
 import run.serverstatus.app.utils.MailUtil;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.TemplateEngine;
@@ -26,8 +26,8 @@ public class SendBootInformation {
      *
      * @return 是否发送成功
      */
-    public boolean sendBootInfoByEmail(BootInfo bootInfo) {
-        context.setVariable("bootInfo", bootInfo);
+    public boolean sendBootInfoByEmail(StaticInfo staticInfo) {
+        context.setVariable("staticInfo", staticInfo);
         String htmlEmail = templateEngine.process("BootInformation", context);
         return mailUtil.sendMail(htmlEmail, "BootInfo");
     }

@@ -26,8 +26,8 @@ logging:
 serverstatus:
   language: Chinese # Chinese or English
   dateFormat: yyyy-MM-dd HH:mm:ss
-  hostName: My Server
-  mark: version 1.0
+  serverName: My Server
+  mark: Test
   processNum: 10 # <=10
   mail:
     host: smtp.qq.com

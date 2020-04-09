@@ -11,6 +11,13 @@ public interface IndexService {
     boolean isFirstTimeSignIn();
 
     /**
+     * Is this the first time to sign up?
+     *
+     * @return boolean
+     */
+    boolean isFirstTimeSignUp();
+
+    /**
      * Find the Account by username
      *
      * @param username password

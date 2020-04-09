@@ -1,9 +1,8 @@
 package run.serverstatus.app.service.Impl;
 
-import run.serverstatus.app.entities.info.BootInfo;
+import run.serverstatus.app.entities.info.StaticInfo;
 import run.serverstatus.app.entities.info.LineChartInfo;
 import run.serverstatus.app.entities.info.TimedInfo;
-import run.serverstatus.app.repository.info.BootInfoRepository;
 import run.serverstatus.app.repository.info.LineChartRepository;
 import run.serverstatus.app.repository.info.TimedInfoRepository;
 import run.serverstatus.app.service.MoreDetailsService;
@@ -13,15 +12,15 @@ import java.util.List;
 
 @Service
 public class MoreDetailsServiceImpl implements MoreDetailsService {
-
-    private final BootInfoRepository bootInfoRep;
     private final TimedInfoRepository timedInfoRep;
     private final LineChartRepository lineChartRep;
+    //Cache information with staticInfo
+    private final StaticInfo staticInfo;
 
-    public MoreDetailsServiceImpl(BootInfoRepository bootInfoRep,
+    public MoreDetailsServiceImpl(StaticInfo staticInfo,
                                   TimedInfoRepository timedInfoRep,
                                   LineChartRepository lineChartRep) {
-        this.bootInfoRep = bootInfoRep;
+        this.staticInfo = staticInfo;
         this.timedInfoRep = timedInfoRep;
         this.lineChartRep = lineChartRep;
     }
@@ -32,8 +31,8 @@ public class MoreDetailsServiceImpl implements MoreDetailsService {
      * @return bootInfo
      */
     @Override
-    public BootInfo findBootInfo() {
-        return bootInfoRep.findBootInfo();
+    public StaticInfo findStaticInfo() {
+        return staticInfo;
     }
 
     /**

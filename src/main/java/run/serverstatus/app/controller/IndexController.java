@@ -61,7 +61,7 @@ public class IndexController {
     @ResponseBody
     public String register(@RequestParam String username, @RequestParam String password, @RequestParam String recipient) {
         log.info(username + "    " + password + "  " + recipient);
-        if (!indexService.isFirstTimeSignIn()){
+        if (!indexService.isFirstTimeSignUp()){
             HashMap<String, Object> map = new HashMap<>();
             map.put("flag", false);
             map.put("msg","Sorry, Only one account is allowed！");

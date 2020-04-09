@@ -1,7 +1,7 @@
 package run.serverstatus.app.controller;
 
 import run.serverstatus.app.entities.properties.MailSettings;
-import run.serverstatus.app.entities.properties.Settings;
+import run.serverstatus.app.entities.properties.AppSettings;
 import run.serverstatus.app.service.Impl.SettingsServiceImpl;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
@@ -15,14 +15,14 @@ import java.util.HashMap;
 @Controller
 public class SettingsController {
     private final MailSettings mailSettings;
-    private final Settings settings;
+    private final AppSettings appSettings;
     private final SettingsServiceImpl settingsService;
 
     public SettingsController(MailSettings mailSettings,
-                              Settings settings,
+                              AppSettings appSettings,
                               SettingsServiceImpl settingsService) {
         this.mailSettings = mailSettings;
-        this.settings = settings;
+        this.appSettings = appSettings;
         this.settingsService = settingsService;
     }
 
@@ -35,11 +35,11 @@ public class SettingsController {
     @PostMapping("appSettings")
     @ResponseBody
     public String settings(HttpServletRequest request) {
-        settings.setHostName(request.getParameter("hostname"));
-        settings.setMark(request.getParameter("mark"));
-        settings.setLanguage(request.getParameter("language"));
-        settings.setProcessNum(request.getParameter("processNum"));
-        boolean flag = settingsService.updateSettings(settings);
+        appSettings.setServerName(request.getParameter("serverName"));
+        appSettings.setMark(request.getParameter("mark"));
+        appSettings.setLanguage(request.getParameter("language"));
+        appSettings.setProcessNum(request.getParameter("processNum"));
+        boolean flag = settingsService.updateSettings(appSettings);
         HashMap<String, Object> map = new HashMap<>();
         map.put("flag", flag);
         if (flag) {

@@ -1,16 +1,16 @@
 package run.serverstatus.app.service;
 
 import run.serverstatus.app.entities.properties.MailSettings;
-import run.serverstatus.app.entities.properties.Settings;
+import run.serverstatus.app.entities.properties.AppSettings;
 
 public interface SettingsService {
     /**
      * Update application settings from webPages
      *
-     * @param settings form Controller
+     * @param appSettings form Controller
      * @return boolean
      */
-    boolean updateSettings(Settings settings);
+    boolean updateSettings(AppSettings appSettings);
 
     /**
      * Update mailSettings from webPages

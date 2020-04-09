@@ -5,11 +5,11 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Data
-@Scope("prototype")
 @Component
-public class Settings {
+public class AppSettings {
     private String language;
-    private String hostName;
     private String processNum;
     private String mark;
+    private String serverName;
+
 }

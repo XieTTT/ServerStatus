@@ -26,7 +26,10 @@ public class LineChartInfoUtil {
         /*Create Threads*/
         //Get CpuLoad
         Thread got_cpuLoad_thread = new Thread(() -> {
-            lineChartInfo.setCpuLoad(infoUtil.cpuLoad());
+            double value = infoUtil.cpuLoad();
+            //Keep two decimal places
+            value=(double) Math.round(value * 100) / 100;
+            lineChartInfo.setCpuLoad(value);
         }, "CpuLoad");
 
         //Get CPU Temperature

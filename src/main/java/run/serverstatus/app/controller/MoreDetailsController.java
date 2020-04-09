@@ -1,6 +1,6 @@
 package run.serverstatus.app.controller;
 
-import run.serverstatus.app.entities.info.BootInfo;
+import run.serverstatus.app.entities.info.StaticInfo;
 import run.serverstatus.app.entities.info.LineChartInfo;
 import run.serverstatus.app.entities.info.TimedInfo;
 import run.serverstatus.app.service.Impl.MoreDetailsServiceImpl;
@@ -31,8 +31,8 @@ public class MoreDetailsController {
      */
     @RequestMapping("moreDetails")
     public String moreDetails(Map<String, Object> map) {
-        BootInfo bootInfo = moreDetailsService.findBootInfo();
-        map.put("bootInfo", bootInfo);
+        StaticInfo staticInfo = moreDetailsService.findStaticInfo();
+        map.put("staticInfo", staticInfo);
         LineChartInfo lineChartInfoMin = moreDetailsService.findLineChartInfoMin();
         map.put("lineChartInfoMin", lineChartInfoMin);
         TimedInfo timedInfo = moreDetailsService.findTimedInfo();

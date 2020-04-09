@@ -2,7 +2,7 @@ package run.serverstatus.app.repository;
 
 import run.serverstatus.app.entities.properties.Account;
 import run.serverstatus.app.entities.properties.MailSettings;
-import run.serverstatus.app.entities.properties.Settings;
+import run.serverstatus.app.entities.properties.AppSettings;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -13,20 +13,20 @@ public interface PropertiesRepository {
     /**
      * insert settings to database
      *
-     * @param settings settings
+     * @param appSettings settings
      */
-    @Insert("insert into Settings values(null, #{language}, #{hostName}, #{processNum}, #{mark})")
-    void insertSettings(Settings settings);
+    @Insert("insert into Settings values(null, #{language}, #{serverName}, #{processNum}, #{mark})")
+    void insertSettings(AppSettings appSettings);
 
     /**
      * Update the only settings
      *
-     * @param settings s
+     * @param appSettings s
      * @return if success
      */
-    @Update("update Settings set hostname = #{hostName}, language = #{language}, processNum = #{processNum}," +
+    @Update("update Settings set serverName = #{serverName}, language = #{language}, processNum = #{processNum}," +
             " mark = #{mark} where id = 1")
-    int updateSettings(Settings settings);
+    int updateSettings(AppSettings appSettings);
 
     /**
      * Find settings in database
@@ -34,7 +34,7 @@ public interface PropertiesRepository {
      * @return Settings
      */
     @Select("select * from Settings ORDER BY id DESC LIMIT 1")
-    Settings findSettings();
+    AppSettings findSettings();
 
     /**
      * Insert account to table account

@@ -1,7 +1,7 @@
 package run.serverstatus.app.service.Impl;
 
 import run.serverstatus.app.entities.properties.MailSettings;
-import run.serverstatus.app.entities.properties.Settings;
+import run.serverstatus.app.entities.properties.AppSettings;
 import run.serverstatus.app.repository.PropertiesRepository;
 import run.serverstatus.app.service.SettingsService;
 import run.serverstatus.app.utils.MailUtil;
@@ -22,12 +22,12 @@ public class SettingsServiceImpl implements SettingsService {
     /**
      * Update application settings from webPages
      *
-     * @param settings form Controller
+     * @param appSettings form Controller
      * @return boolean
      */
     @Override
-    public boolean updateSettings(Settings settings) {
-        int i = propertiesRep.updateSettings(settings);
+    public boolean updateSettings(AppSettings appSettings) {
+        int i = propertiesRep.updateSettings(appSettings);
         return i == 1;
     }
 

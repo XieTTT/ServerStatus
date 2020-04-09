@@ -2,13 +2,12 @@ package run.serverstatus.app.schedule.collectInformation;
 
 
 import run.serverstatus.app.entities.Processor;
-import run.serverstatus.app.entities.info.BootInfo;
+import run.serverstatus.app.entities.info.StaticInfo;
 import run.serverstatus.app.entities.info.LineChartInfo;
 import run.serverstatus.app.entities.info.TimedInfo;
-import run.serverstatus.app.entities.properties.Settings;
+import run.serverstatus.app.entities.properties.AppSettings;
 import run.serverstatus.app.repository.ProcessRepository;
 import run.serverstatus.app.repository.PropertiesRepository;
-import run.serverstatus.app.repository.info.BootInfoRepository;
 import run.serverstatus.app.repository.info.LineChartRepository;
 import run.serverstatus.app.repository.info.TimedInfoRepository;
 import run.serverstatus.app.schedule.sendMail.SendTimedInfo;
@@ -37,23 +36,24 @@ public class TimedInfoCollect {
     private final PropertiesRepository pRepository;
     private final SendTimedInfo sendTimedInfo;
     private final LineChartRepository lRepository;
-    private final BootInfoRepository bRepository;
     private final ProcessRepository proRepository;
+    //Cache information with staticInfo
+    private final StaticInfo staticInfo;
 
     public TimedInfoCollect(TimedInfoUtil timedInfoUtil,
                             TimedInfoRepository repository,
                             PropertiesRepository pRepository,
                             SendTimedInfo sendTimedInfo,
                             LineChartRepository lRepository,
-                            BootInfoRepository bRepository,
-                            ProcessRepository proRepository) {
+                            ProcessRepository proRepository,
+                            StaticInfo staticInfo) {
         this.timedInfoUtil = timedInfoUtil;
         this.repository = repository;
         this.pRepository = pRepository;
         this.sendTimedInfo = sendTimedInfo;
         this.lRepository = lRepository;
-        this.bRepository = bRepository;
         this.proRepository = proRepository;
+        this.staticInfo = staticInfo;
     }
 
     /* Timed info */
@@ -90,13 +90,13 @@ public class TimedInfoCollect {
     public void startTask() {
         log.info("Timed Task: BEGIN");
         TimedInfo timedInfo = timedInfoCollect();
-            BootInfo bootInfo = bRepository.findBootInfo();
+
             List<LineChartInfo> recentLineChartInfoHour = lRepository.findRecentLineChartInfoHour(1);
             LineChartInfo lineChartInfo = recentLineChartInfoHour.get(0);
             HashMap<String, Object> soMap = new HashMap<>();
             soMap.put("lineChartInfo", lineChartInfo);
             soMap.put("timedInfo", timedInfo);
-            soMap.put("bootInfo", bootInfo);
+            soMap.put("bootInfo", staticInfo);
             soMap.put("processorSortedByCPU", timedInfo.getProcessorsSortedByCPU());
             soMap.put("processorSortedByMEN", timedInfo.getProcessorsSortedByMEN());
             sendTimedInfo.sendTimedInfoByEmail(soMap);
@@ -104,22 +104,22 @@ public class TimedInfoCollect {
     }
 
     public TimedInfo timedInfoCollect() {
-        Settings settings = pRepository.findSettings();
+        AppSettings appSettings = pRepository.findSettings();
         int lang;
-        if (settings.getLanguage().equals("Chinese")) {
+        if (appSettings.getLanguage().equals("Chinese")) {
             lang = 0;
-        } else if (settings.getLanguage().equals("English")) {
+        } else if (appSettings.getLanguage().equals("English")) {
             lang = 1;
         } else {
             lang = 1;
             log.info("Language setting error, default Chinese ");
         }
-        if (Integer.parseInt(settings.getProcessNum()) > 10) {
+        if (Integer.parseInt(appSettings.getProcessNum()) > 10) {
             log.info("ProcessNum must Not more than 10 ");
-            settings.setProcessNum("10");
+            appSettings.setProcessNum("10");
         }
         //Save info to database
-        TimedInfo timedInfo = timedInfoUtil.getTimedInfo(lang, Integer.parseInt(settings.getProcessNum()));
+        TimedInfo timedInfo = timedInfoUtil.getTimedInfo(lang, Integer.parseInt(appSettings.getProcessNum()));
         repository.insertTimedInfo(timedInfo);
         for (Processor processorsSortedByCPU : timedInfo.getProcessorsSortedByCPU()) {
             //Contact timedInfo and processInfo

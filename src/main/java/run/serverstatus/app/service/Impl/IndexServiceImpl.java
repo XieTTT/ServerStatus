@@ -1,12 +1,10 @@
 package run.serverstatus.app.service.Impl;
 
-import run.serverstatus.app.entities.info.BootInfo;
+import run.serverstatus.app.entities.info.StaticInfo;
 import run.serverstatus.app.entities.properties.Account;
 import run.serverstatus.app.repository.PropertiesRepository;
-import run.serverstatus.app.repository.info.BootInfoRepository;
 import run.serverstatus.app.schedule.sendMail.SendBootInformation;
 import run.serverstatus.app.service.IndexService;
-import run.serverstatus.app.utils.infoUtils.BootInfoUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -14,18 +12,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class IndexServiceImpl implements IndexService {
     private final PropertiesRepository pRepository;
-    private final BootInfoUtil bootInfoUtil;
-    private final BootInfoRepository bootInfoRep;
     private final SendBootInformation sendBootInformation;
+    private final StaticInfo staticInfo;
 
     public IndexServiceImpl(PropertiesRepository pRepository,
-                            BootInfoUtil bootInfoUtil,
-                            BootInfoRepository bootInfoRep,
-                            SendBootInformation sendBootInformation) {
+                            SendBootInformation sendBootInformation,
+                            StaticInfo staticInfo) {
         this.pRepository = pRepository;
-        this.bootInfoUtil = bootInfoUtil;
-        this.bootInfoRep = bootInfoRep;
         this.sendBootInformation = sendBootInformation;
+        this.staticInfo = staticInfo;
     }
 
     /**
@@ -37,6 +32,16 @@ public class IndexServiceImpl implements IndexService {
     public boolean isFirstTimeSignIn() {
         int anyAccount = pRepository.findAnyAccount();
         return !(anyAccount > 0);
+    }
+
+    /**
+     * Is this the first time to sign up?
+     *
+     * @return boolean
+     */
+    @Override
+    public boolean isFirstTimeSignUp() {
+        return isFirstTimeSignIn();
     }
 
     /**
@@ -85,10 +90,8 @@ public class IndexServiceImpl implements IndexService {
     @Override
     public boolean sendBootInfo() {
         /*Send boot Information*/
-        log.info("Send boot information .");
-        BootInfo bootInfo = bootInfoUtil.collectBootInfo();
-        bootInfoRep.insertBaseInfo(bootInfo);
-        return sendBootInformation.sendBootInfoByEmail(bootInfo);
+        log.info("Send boot information.");
+        return sendBootInformation.sendBootInfoByEmail(staticInfo);
     }
 
 }

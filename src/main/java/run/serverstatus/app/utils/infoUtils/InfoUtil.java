@@ -1,5 +1,6 @@
 package run.serverstatus.app.utils.infoUtils;
 
+import oshi.software.os.*;
 import run.serverstatus.app.config.properties.ServerStatusProperties;
 import run.serverstatus.app.entities.info.TimedInfo;
 import run.serverstatus.app.entities.Processor;
@@ -15,8 +16,6 @@ import org.springframework.stereotype.Component;
 import oshi.PlatformEnum;
 import oshi.SystemInfo;
 import oshi.hardware.*;
-import oshi.software.os.OSProcess;
-import oshi.software.os.OperatingSystem;
 import oshi.util.FormatUtil;
 import oshi.util.Util;
 
@@ -24,37 +23,32 @@ import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.List;
+import java.util.*;
 
 @Slf4j
 @Component
+/*@SuppressWarnings("all")*/
 public class InfoUtil {
 
-    private final PropertiesRepository repository;
     private final HttpClientUtil httpClientUtil;
     private final OperatingSystem operatingSystem;
-    private final HardwareAbstractionLayer hardWard;
+    private final HardwareAbstractionLayer hardware;
     private final NetworkIF[] networkIFS;
     private final ServerStatusProperties properties;
     private final ConfigurableApplicationContext context;
 
-    public InfoUtil(PropertiesRepository repository,
-                    HttpClientUtil httpClientUtil,
+    public InfoUtil(HttpClientUtil httpClientUtil,
                     OperatingSystem operatingSystem,
-                    HardwareAbstractionLayer hardWard,
+                    HardwareAbstractionLayer hardware,
                     NetworkIF[] networkIFS,
                     ServerStatusProperties properties,
                     ConfigurableApplicationContext context) {
-        this.repository = repository;
         this.httpClientUtil = httpClientUtil;
         this.operatingSystem = operatingSystem;
-        this.hardWard = hardWard;
+        this.hardware = hardware;
         this.networkIFS = networkIFS;
         this.properties = properties;
-        this.context=context;
+        this.context = context;
     }
 
     //Got Long time
@@ -106,7 +100,7 @@ public class InfoUtil {
     //Get CpuLoad
     public double cpuLoad() {
         long s = System.currentTimeMillis();
-        CentralProcessor cProcessor = hardWard.getProcessor();
+        CentralProcessor cProcessor = hardware.getProcessor();
         long[] processorCpuLoadTicks = cProcessor.getSystemCpuLoadTicks();
         Util.sleep(1000);
         long[] ticks = cProcessor.getSystemCpuLoadTicks();
@@ -127,7 +121,7 @@ public class InfoUtil {
     //Get Available Memory
     public String availableMemory() {
         long s = System.currentTimeMillis();
-        GlobalMemory memory = hardWard.getMemory();
+        GlobalMemory memory = hardware.getMemory();
         double total = memory.getTotal();
         double available = memory.getAvailable();
         if (total < 1073741824/*1g*/) {
@@ -150,7 +144,7 @@ public class InfoUtil {
      */
     public double cpuTemperature(int language) {
         long s = System.currentTimeMillis();
-        Sensors sensors = hardWard.getSensors();
+        Sensors sensors = hardware.getSensors();
         if (SystemInfo.getCurrentPlatformEnum() == PlatformEnum.WINDOWS) {
             Components components = JSensors.get.components();
             List<Cpu> cpus = components.cpus;
@@ -194,7 +188,7 @@ public class InfoUtil {
         long s = System.currentTimeMillis();
         boolean flag = false;
         int maxFanSpeed = 0;
-        for (int fanSpeed : hardWard.getSensors().getFanSpeeds()) {
+        for (int fanSpeed : hardware.getSensors().getFanSpeeds()) {
             flag = true;
             if (maxFanSpeed < fanSpeed)
                 maxFanSpeed = fanSpeed;
@@ -223,6 +217,7 @@ public class InfoUtil {
                 continue;
             }
             flag = true;
+            networkIF.updateAttributes();
             long bytesSent1 = networkIF.getBytesSent();
             long bytesRecv1 = networkIF.getBytesRecv();
             Util.sleep(1000);
@@ -272,7 +267,7 @@ public class InfoUtil {
     //Get hostName
     public String hostName() {
         log.info("Got hostName");
-        return repository.findSettings().getHostName();
+        return operatingSystem.getNetworkParams().getHostName();
     }
 
     //Get OsName
@@ -301,9 +296,92 @@ public class InfoUtil {
         return FormatUtil.formatElapsedSecs(operatingSystem.getSystemUptime());
     }
 
+    //Get all computerSystem info
+    public Map<String, Object> computerSystem() {
+        long s = System.currentTimeMillis();
+        ComputerSystem computerSystem = hardware.getComputerSystem();
+        HashMap<String, Object> map = new HashMap<>();
+        StringBuilder sb = new StringBuilder();
+        Baseboard baseboard = computerSystem.getBaseboard();
+        sb.
+                append("Manufacturer（制造商）: ").append(baseboard.getManufacturer()).append(";   ").
+                append("SerialNumber（序列号）: ").append(baseboard.getSerialNumber()).append(";   ").
+                append("Version（版本）: ").append(baseboard.getVersion()).append(";   ");
+        map.put("baseboard", sb.toString());
+        map.put("Firmware", computerSystem.getFirmware().toString());
+        map.put("SerialNumber", "SerialNumber(电脑系统序列号): " + computerSystem.getSerialNumber());
+        map.put("model", "Model(电脑型号): " + computerSystem.getModel());
+        log.info("Got all computerSystem info spend: " + (System.currentTimeMillis() - s) + " ms.");
+        return map;
+    }
+
+    //Get all diskStores info
+    public List<String> diskStores() {
+        long s = System.currentTimeMillis();
+        List<String> strings = new ArrayList<>();
+        HWDiskStore[] diskStores = hardware.getDiskStores();
+        StringBuilder sb = new StringBuilder();
+        for (HWDiskStore diskStore : diskStores) {
+            sb.
+                    append("Model(型号)：").append(diskStore.getModel()).append(";    ").
+                    append("Name(名称)：").append(diskStore.getName()).append(";    ").
+                    append("Reads(读取次数)：").append(diskStore.getReads()).append(";    ").
+                    append("Writes(写入次数)：").append(diskStore.getWrites()).append(";    ").
+                    append("Serial(硬盘序列号)：").append(diskStore.getSerial()).append(";    ").
+                    append("Size(硬盘容量)：").append(diskStore.getSize() / 1024 / 1024 / 1024).append("GB;    ");
+            strings.add(sb.toString());
+            sb.delete(0, sb.length());
+        }
+        log.info("Got all diskStores info spend: " + (System.currentTimeMillis() - s) + " ms.");
+        return strings;
+    }
+
+    //Get all fileSystem info
+    public List<String> fileSystem() {
+        long s = System.currentTimeMillis();
+        FileSystem fileSystem = operatingSystem.getFileSystem();
+        OSFileStore[] fileStores = fileSystem.getFileStores();
+        List<String> fileSystems = new ArrayList<>();
+        StringBuilder sb = new StringBuilder();
+        for (OSFileStore fileStore : fileStores) {
+            sb.
+                    append("Name(盘名)：").append(fileStore.getName()).append(";   ").
+                    append("FreeSpace(剩余容量)：").append(fileStore.getFreeSpace() / 1024 / 1024 / 1024).append("GB;   ").
+                    append("TotalSpace(总容量)：").append(fileStore.getTotalSpace() / 1024 / 1024 / 1024).append("GB;   ").
+                    append("Description(描述)：").append(fileStore.getDescription()).append(";   ").
+                    append("Type(类型)：").append(fileStore.getType()).append(";   ");
+            fileSystems.add(sb.toString());
+            sb.delete(0, sb.length());
+        }
+        log.info("Got all fileSystem info spend: " + (System.currentTimeMillis() - s) + " ms.");
+        return fileSystems;
+    }
+
+    //Get  operatingSystem info
+    public String operatingSystem() {
+        long s = System.currentTimeMillis();
+        StringBuilder sb = new StringBuilder();
+        sb.
+                append("OSName(操作系统)：").append(System.getProperty("os.name")).append("; ").
+                append("Bitness(系统位数)：").append(operatingSystem.getBitness()).append(";    ").
+                append("Manufacturer(制造商)：").append(operatingSystem.getManufacturer()).append(";    ").
+                append("ProcessCount(进程数)：").append(operatingSystem.getProcessCount()).append("; ");
+        log.info("Got  operatingSystem info spend: " + (System.currentTimeMillis() - s) + " ms.");
+        return sb.toString();
+    }
+
+    //Get all processor info
+    public String processor() {
+        long s = System.currentTimeMillis();
+        CentralProcessor processor = hardware.getProcessor();
+        log.info("Got all processor info spend: " + (System.currentTimeMillis() - s) + " ms.");
+        return processor.toString();
+    }
+
     /**
      * 计算 CPU 占用率
-     * @param  process OSProcess
+     *
+     * @param process OSProcess
      * @return info
      */
     private String calCPUPercent(OSProcess process) {
@@ -315,7 +393,7 @@ public class InfoUtil {
     /*计算 MEN 占用率*/
     private String calMENPercent(OSProcess process) {
         long min = process.getResidentSetSize();
-        long max = hardWard.getMemory().getTotal();
+        long max = hardware.getMemory().getTotal();
         return String.format("%.2f", ((double) min / (double) max) * 100) + "%";
     }
 
@@ -343,5 +421,4 @@ public class InfoUtil {
         }
         return sizeBuffer.toString();
     }
-
 }

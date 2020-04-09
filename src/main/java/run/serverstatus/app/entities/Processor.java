@@ -4,6 +4,9 @@ import lombok.Data;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.Map;
+
 @Data
 @Component("processor")
 @Scope("prototype")
@@ -17,5 +20,6 @@ public class Processor {
     private String RSS;
     private String Name;
     private int hourInfo_id;
+
 
 }

@@ -11,7 +11,7 @@ import java.util.Map;
 @ConfigurationProperties("serverstatus")
 public class ServerStatusProperties {
     private String language;
-    private String hostName;
+    private String serverName;
     private String processNum;
     private String dateFormat;
     private String mark;

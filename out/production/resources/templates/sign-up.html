@@ -38,7 +38,7 @@
     <div class="card">
         <div class="body">
             <form id="register" method="POST">
-                <div class="msg">Register an account</div>
+                <div class="msg">Register An Account</div>
                 <div class="input-group">
                         <span class="input-group-addon">
                             <i class="material-icons">person</i>
@@ -113,6 +113,8 @@
             $.post("register", $(this).serialize(), function (data) {
                 if (data.flag) {
                     location.href = "sign-in";
+                } else {
+                    showNotification("alert-danger", data.msg, "top", "center", "", "");
                 }
             }, "json");
             return false;
