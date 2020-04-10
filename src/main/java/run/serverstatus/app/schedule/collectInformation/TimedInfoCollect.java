@@ -1,6 +1,7 @@
 package run.serverstatus.app.schedule.collectInformation;
 
 
+import org.springframework.scheduling.annotation.Schedules;
 import run.serverstatus.app.entities.Processor;
 import run.serverstatus.app.entities.info.StaticInfo;
 import run.serverstatus.app.entities.info.LineChartInfo;
@@ -23,8 +24,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-@Slf4j
 @Data
+@Slf4j
 @Component
 @EnableScheduling
 public class TimedInfoCollect {
@@ -63,23 +64,27 @@ public class TimedInfoCollect {
         if (timedEmail == 1) {
             //Every Half Hour
             startTask();
+            log.info("Every Half Hour TimedEmail");
         } else if (timedEmail == 2) {
             //Every Hour
             String mm = new SimpleDateFormat("mm").format(date);
             if (Integer.parseInt(mm) == 0) {
                 startTask();
+                log.info("Every Hour TimedEmail");
             }
         } else if (timedEmail == 3) {
             //Every Half Day (00:00 12:00)
             String HH = new SimpleDateFormat("HH").format(date);
             if (Integer.parseInt(HH) == 12 || Integer.parseInt(HH) == 0) {
                 startTask();
+                log.info("Every Half Day (00:00 12:00) TimedEmail");
             }
         } else if (timedEmail == 4) {
             //Every Day (00:00)
             String HH = new SimpleDateFormat("HH").format(date);
             if (Integer.parseInt(HH) == 0) {
                 startTask();
+                log.info("Every Day (00:00) TimedEmail");
             }
         } else if (timedEmail == 0) {
             log.info("Timed Email has been turned off.");
@@ -88,19 +93,17 @@ public class TimedInfoCollect {
 
     /* Send Timed Info ?*/
     public void startTask() {
-        log.info("Timed Task: BEGIN");
         TimedInfo timedInfo = timedInfoCollect();
-
-            List<LineChartInfo> recentLineChartInfoHour = lRepository.findRecentLineChartInfoHour(1);
-            LineChartInfo lineChartInfo = recentLineChartInfoHour.get(0);
-            HashMap<String, Object> soMap = new HashMap<>();
-            soMap.put("lineChartInfo", lineChartInfo);
-            soMap.put("timedInfo", timedInfo);
-            soMap.put("bootInfo", staticInfo);
-            soMap.put("processorSortedByCPU", timedInfo.getProcessorsSortedByCPU());
-            soMap.put("processorSortedByMEN", timedInfo.getProcessorsSortedByMEN());
-            sendTimedInfo.sendTimedInfoByEmail(soMap);
-        log.info("Timed Task: END");
+        List<LineChartInfo> recentLineChartInfoHour = lRepository.findRecentLineChartInfoHour(1);
+        LineChartInfo lineChartInfo = recentLineChartInfoHour.get(0);
+        HashMap<String, Object> soMap = new HashMap<>();
+        soMap.put("lineChartInfo", lineChartInfo);
+        soMap.put("timedInfo", timedInfo);
+        soMap.put("staticInfo", staticInfo);
+        soMap.put("processorSortedByCPU", timedInfo.getProcessorsSortedByCPU());
+        soMap.put("processorSortedByMEN", timedInfo.getProcessorsSortedByMEN());
+        boolean flag = sendTimedInfo.sendTimedInfoByEmail(soMap);
+        log.info("TimedEmail : " + flag);
     }
 
     public TimedInfo timedInfoCollect() {

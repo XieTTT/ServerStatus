@@ -9,7 +9,7 @@ public interface MoreDetailsService {
      * Find Boot Information
      * @return boolean
      */
-    StaticInfo findStaticInfo();
+    StaticInfo refreshStaticInfo();
 
     TimedInfo findTimedInfo();
 

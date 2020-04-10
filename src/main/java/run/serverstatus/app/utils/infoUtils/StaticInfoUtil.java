@@ -1,9 +1,11 @@
 package run.serverstatus.app.utils.infoUtils;
 
+import lombok.extern.slf4j.Slf4j;
 import run.serverstatus.app.entities.info.StaticInfo;
 import org.springframework.stereotype.Component;
 import run.serverstatus.app.entities.properties.AppSettings;
 
+@Slf4j
 @Component
 public class StaticInfoUtil {
     private final AppSettings appSettings;
@@ -18,6 +20,9 @@ public class StaticInfoUtil {
         this.appSettings = appSettings;
     }
 
+    /**
+     * Collect staticInfo while app boot and  cache by staticInfo
+     */
     public void collectStaticInfo() {
         staticInfo.setMark(appSettings.getMark());
         staticInfo.setOsName(infoUtil.osName());
@@ -31,5 +36,18 @@ public class StaticInfoUtil {
         staticInfo.setFileSystem(infoUtil.fileSystem());
         staticInfo.setProcessor(infoUtil.processor());
         staticInfo.setOperatingSystem(infoUtil.operatingSystem());
+    }
+
+    /**
+     * Refresh StaticInfo while website visit
+     *
+     * @return StaticInfo
+     */
+    public StaticInfo refreshStaticInfo() {
+        staticInfo.setMark(appSettings.getMark());
+        staticInfo.setFileSystem(infoUtil.fileSystem());
+        staticInfo.setOperatingSystem(infoUtil.operatingSystem());
+        staticInfo.setDiskStores(infoUtil.diskStores());
+        return staticInfo;
     }
 }

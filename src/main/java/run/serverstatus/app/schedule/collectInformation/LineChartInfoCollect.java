@@ -23,14 +23,14 @@ import java.util.List;
 @EnableScheduling
 public class LineChartInfoCollect {
 
-    /*A properties to record the time of last waring email sending*/
-    private Long longTime;
-    /*A properties to set  waring email Threshold*/
-    private Integer waringEmail = 0;
     private final LineChartRepository lineChartRepository;
     private final LineChartInfoUtil lineChartInfoUtil;
     private final PropertiesRepository repository;
     private final MailUtil mailUtil;
+    /*A properties to record the time of last waring email sending*/
+    private Long longTime;
+    /*A properties to set  waring email Threshold*/
+    private Integer waringEmail = 0;
 
     public LineChartInfoCollect(LineChartRepository lineChartRepository,
                                 LineChartInfoUtil lineChartInfoUtil,
@@ -49,7 +49,7 @@ public class LineChartInfoCollect {
     }
 
     /*calculate info per hour*/
-    @Scheduled(cron = "40 59 * * *  ?")
+    @Scheduled(cron = "40 29,59 * * *  ?")
     public void hourLineChartInfo() {
         ConfigurableApplicationContext context = Application.getContext();
         LineChartInfo lineChartInfo = context.getBean("lineChartInfo", LineChartInfo.class);
@@ -69,7 +69,6 @@ public class LineChartInfoCollect {
      */
     public void startTask() {
         long s = System.currentTimeMillis();
-        log.info("Start collect info per min.");
         String language = repository.findSettings().getLanguage();
         int lang;
         if (language.equals("Chinese")) {
@@ -83,7 +82,7 @@ public class LineChartInfoCollect {
         //Find information by infoUtil
         LineChartInfo lineChartInfo = lineChartInfoUtil.collectLineChartInfo(lang);
         this.lineChartRepository.insertMinuteInfo(lineChartInfo);
-        log.info("End collect lineChart info. spend: " + (System.currentTimeMillis() - s) + " ms.");
+        log.info(lineChartInfo + "  Spend: " + (System.currentTimeMillis() - s) + " ms.");
         //send temperature waring email
         if (waringEmail != 0) {
             /*

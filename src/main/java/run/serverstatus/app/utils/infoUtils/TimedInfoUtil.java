@@ -39,10 +39,10 @@ public class TimedInfoUtil {
             timedInfo.setAvailableMemory(infoUtil.availableMemory());
         }, "Ava Mem");
 
-        //Get Fan Speed
+/*        //Get Fan Speed
         Thread got_fan_speed_thread = new Thread(() -> {
             timedInfo.setFanSpeed(infoUtil.fanSpeed(language));
-        }, "FanSpeed");
+        }, "FanSpeed");*/
 
         /*Get Process*/
         Thread got_processor_thread = new Thread(() -> {
@@ -54,7 +54,7 @@ public class TimedInfoUtil {
         //cal time
         /*Start Threads*/
         got_available_memory_tread.start();
-        got_fan_speed_thread.start();
+        /*got_fan_speed_thread.start();*/
         got_processor_thread.start();
 
         //Get SysTime
@@ -66,7 +66,7 @@ public class TimedInfoUtil {
         try {
             /*Threads Join*/
             got_available_memory_tread.join();
-            got_fan_speed_thread.join();
+           /* got_fan_speed_thread.join();*/
             got_processor_thread.join();
 
         } catch (Exception ex) {

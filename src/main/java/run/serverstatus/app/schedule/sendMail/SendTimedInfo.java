@@ -21,11 +21,11 @@ public class SendTimedInfo {
         this.templateEngine = templateEngine;
     }
 
-    public void sendTimedInfoByEmail(HashMap<String, Object> soMap) {
+    public boolean sendTimedInfoByEmail(HashMap<String, Object> soMap) {
         Context context = new Context();
         context.setVariables(soMap);
         String text = templateEngine.process("TimedInfo", context);
-        mailUtil.sendMail(text, "TimedInfo");
+        return mailUtil.sendMail(text, "TimedInfo");
     }
 }
 

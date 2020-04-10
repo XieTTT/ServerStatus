@@ -17,8 +17,8 @@ public class StaticInfo {
     private String appBootTime;
     private String osBootTime;
     private Map<String, Object> computerSystem;
-    private List<String> diskStores;
-    private List<String> fileSystem;
+    private List<String[]> diskStores;
+    private List<String[]> fileSystem;
     private String operatingSystem;
     private String processor;
 }

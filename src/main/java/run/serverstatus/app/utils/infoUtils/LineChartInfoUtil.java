@@ -1,10 +1,12 @@
 package run.serverstatus.app.utils.infoUtils;
 
+import lombok.extern.slf4j.Slf4j;
 import run.serverstatus.app.entities.info.LineChartInfo;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Slf4j
 @Component("infoPerMinute")
 public class LineChartInfoUtil {
 
@@ -15,7 +17,7 @@ public class LineChartInfoUtil {
                              LineChartInfo lineChartInfo) {
 
         this.infoUtil = infoUtil;
-        this.lineChartInfo=lineChartInfo;
+        this.lineChartInfo = lineChartInfo;
     }
 
 
@@ -28,7 +30,7 @@ public class LineChartInfoUtil {
         Thread got_cpuLoad_thread = new Thread(() -> {
             double value = infoUtil.cpuLoad();
             //Keep two decimal places
-            value=(double) Math.round(value * 100) / 100;
+            value = (double) Math.round(value * 100) / 100;
             lineChartInfo.setCpuLoad(value);
         }, "CpuLoad");
 

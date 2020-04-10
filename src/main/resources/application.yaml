@@ -1,6 +1,6 @@
 spring:
   thymeleaf:
-    cache: false
+    cache: true
   messages:
     basename: i18n.login
   datasource:

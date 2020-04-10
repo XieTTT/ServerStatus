@@ -169,13 +169,13 @@
                                 <th>AvailableMem:</th>
                                 <td><em th:text="${timedInfo.getAvailableMemory()}">Status</em></td>
                             </tr>
-                            <tr>
+                            <tr th:if="${lineChartInfoMin.getCpuTemperature()!= -1}">
                                 <th>CPUTemp:</th>
-                                <td><em th:text="${lineChartInfoMin.getCpuTemperature()}">Status</em></td>
+                                <td><em>[[${lineChartInfoMin.getCpuTemperature()}]]&#176;C</em></td>
                             </tr>
-                            <tr>
-                                <th>FanSpeed:</th>
-                                <td><em th:text="${timedInfo.getFanSpeed()}">Status</em></td>
+                            <tr th:if="${lineChartInfoMin.getCpuTemperature() == -1}">
+                                <th>CPUTemp:</th>
+                                <td><em>Administrator mode required</em></td>
                             </tr>
                             <tr>
                                 <th>Mark:</th>
@@ -226,38 +226,22 @@
                     <div class="card">
                         <div class="header">
                             <h2>
-                                EXAMPLE TAB
-                                <small>Add quick, dynamic tab functionality to transition through panes of local
-                                    content</small>
+                                OS & PROCESSOR
+                                <small>OperatingSystem information and processor information</small>
                             </h2>
-                            <ul class="header-dropdown m-r--5">
-                                <li class="dropdown">
-                                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown"
-                                       role="button" aria-haspopup="true" aria-expanded="false">
-                                        <i class="material-icons">more_vert</i>
-                                    </a>
-                                    <ul class="dropdown-menu pull-right">
-                                        <li><a href="javascript:void(0);">Action</a></li>
-                                        <li><a href="javascript:void(0);">Another action</a></li>
-                                        <li><a href="javascript:void(0);">Something else here</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
                         </div>
                         <div class="body">
                             <!-- Nav tabs -->
                             <ul class="nav nav-tabs tab-nav-right" role="tablist">
-                                <li role="presentation" class="active"><a href="#home" data-toggle="tab">HOME</a></li>
-                                <li role="presentation"><a href="#profile" data-toggle="tab">PROFILE</a></li>
-                                <li role="presentation"><a href="#messages" data-toggle="tab">MESSAGES</a></li>
-                                <li role="presentation"><a href="#settings" data-toggle="tab">SETTINGS</a></li>
+                                <li role="presentation" class="active"><a href="#OS" data-toggle="tab">OS</a></li>
+                                <li role="presentation"><a href="#PROCESSOR" data-toggle="tab">Processor</a></li>
                             </ul>
 
                             <!-- Tab panes -->
                             <div class="tab-content">
-                                <div role="tabpanel" class="tab-pane fade in active" id="home">
-                                    <b>Home Content</b>
-                                    <p>
+                                <div role="tabpanel" class="tab-pane fade in active" id="OS">
+                                    <b>OS Information</b>
+                                    <p th:utext="${staticInfo.getOperatingSystem()}">
                                         Lorem ipsum dolor sit amet, ut duo atqui exerci dicunt, ius impedit
                                         mediocritatem an. Pri ut tation electram moderatius.
                                         Per te suavitate democritum. Duis nemore probatus ne quo, ad liber essent
@@ -266,9 +250,9 @@
                                         sadipscing mel.
                                     </p>
                                 </div>
-                                <div role="tabpanel" class="tab-pane fade" id="profile">
-                                    <b>Profile Content</b>
-                                    <p>
+                                <div role="tabpanel" class="tab-pane fade" id="PROCESSOR">
+                                    <b>Processor Information</b>
+                                    <p th:utext="${staticInfo.getProcessor()}">
                                         Lorem ipsum dolor sit amet, ut duo atqui exerci dicunt, ius impedit
                                         mediocritatem an. Pri ut tation electram moderatius.
                                         Per te suavitate democritum. Duis nemore probatus ne quo, ad liber essent
@@ -277,9 +261,37 @@
                                         sadipscing mel.
                                     </p>
                                 </div>
-                                <div role="tabpanel" class="tab-pane fade" id="messages">
-                                    <b>Message Content</b>
-                                    <p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <!-- Example Tab -->
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card">
+                        <div class="header">
+                            <h2>
+                                COMPUTER SYSTEM
+                                <small>Computer system information</small>
+                            </h2>
+                        </div>
+                        <div class="body">
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs tab-nav-right" role="tablist">
+                                <li role="presentation" class="active"><a href="#Baseboard" data-toggle="tab">Baseboard</a></li>
+                                <li role="presentation"><a href="#Firmware" data-toggle="tab">Firmware</a></li>
+                                <li role="presentation"><a href="#serialNumber" data-toggle="tab">Serial Number</a></li>
+                                <li role="presentation"><a href="#Model" data-toggle="tab">Model</a></li>
+                            </ul>
+
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane fade in active" id="Baseboard">
+                                    <b>Baseboard Information</b>
+                                    <p th:utext="${staticInfo.getComputerSystem().get('baseboard')}">
                                         Lorem ipsum dolor sit amet, ut duo atqui exerci dicunt, ius impedit
                                         mediocritatem an. Pri ut tation electram moderatius.
                                         Per te suavitate democritum. Duis nemore probatus ne quo, ad liber essent
@@ -288,9 +300,31 @@
                                         sadipscing mel.
                                     </p>
                                 </div>
-                                <div role="tabpanel" class="tab-pane fade" id="setting">
-                                    <b>Settings Content</b>
-                                    <p>
+                                <div role="tabpanel" class="tab-pane fade" id="Firmware">
+                                    <b>Firmware Information</b>
+                                    <p th:utext="${staticInfo.getComputerSystem().get('firmware')}">
+                                        Lorem ipsum dolor sit amet, ut duo atqui exerci dicunt, ius impedit
+                                        mediocritatem an. Pri ut tation electram moderatius.
+                                        Per te suavitate democritum. Duis nemore probatus ne quo, ad liber essent
+                                        aliquid
+                                        pro. Et eos nusquam accumsan, vide mentitum fabellas ne est, eu munere gubergren
+                                        sadipscing mel.
+                                    </p>
+                                </div>
+                                <div role="tabpanel" class="tab-pane fade" id="serialNumber">
+                                    <b>Serial Number Information</b>
+                                    <p th:utext="${staticInfo.getComputerSystem().get('serialNumber')}">
+                                        Lorem ipsum dolor sit amet, ut duo atqui exerci dicunt, ius impedit
+                                        mediocritatem an. Pri ut tation electram moderatius.
+                                        Per te suavitate democritum. Duis nemore probatus ne quo, ad liber essent
+                                        aliquid
+                                        pro. Et eos nusquam accumsan, vide mentitum fabellas ne est, eu munere gubergren
+                                        sadipscing mel.
+                                    </p>
+                                </div>
+                                <div role="tabpanel" class="tab-pane fade" id="Model">
+                                    <b>Model Information</b>
+                                    <p th:utext="${staticInfo.getComputerSystem().get('model')}">
                                         Lorem ipsum dolor sit amet, ut duo atqui exerci dicunt, ius impedit
                                         mediocritatem an. Pri ut tation electram moderatius.
                                         Per te suavitate democritum. Duis nemore probatus ne quo, ad liber essent
@@ -306,6 +340,109 @@
             </div>
             <!-- #END# Example Tab -->
         </div>
+
+        <div class="container-fluid">
+            <!-- Example Tab -->
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card">
+                        <div class="header">
+                            <h2>
+                                FILE SYSTEM
+                                <small>Computer file system information information</small>
+                            </h2>
+                        </div>
+                        <div class="body">
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs tab-nav-right" role="tablist">
+                                <li role="presentation" th:each="fileSystem,i:${staticInfo.getFileSystem()}"  th:if="${i.index==0}" class="active"  ><a  th:href="'#'+${fileSystem[0]}" data-toggle="tab">[[${fileSystem[0]}]]</a></li>
+                                <li role="presentation" th:each="fileSystem,i:${staticInfo.getFileSystem()}"  th:if="${i.index!=0}"><a  th:href="'#'+${fileSystem[0]}" data-toggle="tab">[[${fileSystem[0]}]]</a></li>
+                            </ul>
+
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <div th:each="fileSystem,i:${staticInfo.getFileSystem()}"  th:if="${i.index==0}"  role="tabpanel" class="tab-pane fade in active" th:id="${fileSystem[0]}" >
+                                    <b>[[${fileSystem[0]}]]:/  Informatio </b>
+                                    <p th:utext="${fileSystem[1]}">
+                                        Lorem ipsum dolor sit amet, ut duo atqui exerci dicunt, ius impedit
+                                        mediocritatem an. Pri ut tation electram moderatius.
+                                        Per te suavitate democritum. Duis nemore probatus ne quo, ad liber essent
+                                        aliquid
+                                        pro. Et eos nusquam accumsan, vide mentitum fabellas ne est, eu munere gubergren
+                                        sadipscing mel.
+                                    </p>
+                                </div>
+                                <div th:each="fileSystem,i:${staticInfo.getFileSystem()}"  th:if="${i.index!=0}" role="tabpanel" class="tab-pane fade" th:id="${fileSystem[0]}" >
+                                    <b>[[${fileSystem[0]}]]:/  Information</b>
+                                    <p th:utext="${fileSystem[1]}">
+
+                                        Lorem ipsum dolor sit amet, ut duo atqui exerci dicunt, ius impedit
+                                        mediocritatem an. Pri ut tation electram moderatius.
+                                        Per te suavitate democritum. Duis nemore probatus ne quo, ad liber essent
+                                        aliquid
+                                        pro. Et eos nusquam accumsan, vide mentitum fabellas ne est, eu munere gubergren
+                                        sadipscing mel.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- #END# Example Tab -->
+        </div>
+        <div class="container-fluid">
+            <!-- Example Tab -->
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card">
+                        <div class="header">
+                            <h2>
+                                 DISK STORES
+                                <small>Disk Strors information</small>
+                            </h2>
+                        </div>
+                        <div class="body">
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs tab-nav-right" role="tablist">
+                                <li role="presentation" th:each="diskStore,i:${staticInfo.getDiskStores()}"  th:if="${i.index==0}" class="active"  ><a  th:href="'#'+${diskStore[0]}" data-toggle="tab">[[${diskStore[0]}]]</a></li>
+                                <li role="presentation" th:each="diskStore,i:${staticInfo.getDiskStores()}"  th:if="${i.index!=0}"><a  th:href="'#'+${diskStore[0]}" data-toggle="tab">[[${diskStore[0]}]]</a></li>
+                            </ul>
+
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <div th:each="diskStore,i:${staticInfo.getDiskStores()}"  th:if="${i.index==0}"  role="tabpanel" class="tab-pane fade in active" th:id="${diskStore[0]}" >
+                                    <b>[[${diskStore[0]}]]:/  Informatio </b>
+                                    <p th:utext="${diskStore[1]}">
+                                        Lorem ipsum dolor sit amet, ut duo atqui exerci dicunt, ius impedit
+                                        mediocritatem an. Pri ut tation electram moderatius.
+                                        Per te suavitate democritum. Duis nemore probatus ne quo, ad liber essent
+                                        aliquid
+                                        pro. Et eos nusquam accumsan, vide mentitum fabellas ne est, eu munere gubergren
+                                        sadipscing mel.
+                                    </p>
+                                </div>
+                                <div th:each="diskStore,i:${staticInfo.getDiskStores()}"  th:if="${i.index!=0}" role="tabpanel" class="tab-pane fade" th:id="${diskStore[0]}" >
+                                    <b>[[${diskStore[0]}]]:/  Information</b>
+                                    <p th:utext="${diskStore[1]}">
+
+                                        Lorem ipsum dolor sit amet, ut duo atqui exerci dicunt, ius impedit
+                                        mediocritatem an. Pri ut tation electram moderatius.
+                                        Per te suavitate democritum. Duis nemore probatus ne quo, ad liber essent
+                                        aliquid
+                                        pro. Et eos nusquam accumsan, vide mentitum fabellas ne est, eu munere gubergren
+                                        sadipscing mel.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- #END# Example Tab -->
+        </div>
+
+            <!-- #END# Example Tab -->
     </div>
 </section>
 

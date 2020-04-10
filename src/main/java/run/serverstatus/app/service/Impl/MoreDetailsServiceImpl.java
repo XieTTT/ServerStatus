@@ -7,6 +7,7 @@ import run.serverstatus.app.repository.info.LineChartRepository;
 import run.serverstatus.app.repository.info.TimedInfoRepository;
 import run.serverstatus.app.service.MoreDetailsService;
 import org.springframework.stereotype.Service;
+import run.serverstatus.app.utils.infoUtils.StaticInfoUtil;
 
 import java.util.List;
 
@@ -14,15 +15,14 @@ import java.util.List;
 public class MoreDetailsServiceImpl implements MoreDetailsService {
     private final TimedInfoRepository timedInfoRep;
     private final LineChartRepository lineChartRep;
-    //Cache information with staticInfo
-    private final StaticInfo staticInfo;
+    private final StaticInfoUtil staticInfoUtil;
 
-    public MoreDetailsServiceImpl(StaticInfo staticInfo,
-                                  TimedInfoRepository timedInfoRep,
-                                  LineChartRepository lineChartRep) {
-        this.staticInfo = staticInfo;
+    public MoreDetailsServiceImpl(TimedInfoRepository timedInfoRep,
+                                  LineChartRepository lineChartRep,
+                                  StaticInfoUtil staticInfoUtil) {
         this.timedInfoRep = timedInfoRep;
         this.lineChartRep = lineChartRep;
+        this.staticInfoUtil = staticInfoUtil;
     }
 
     /**
@@ -31,8 +31,9 @@ public class MoreDetailsServiceImpl implements MoreDetailsService {
      * @return bootInfo
      */
     @Override
-    public StaticInfo findStaticInfo() {
-        return staticInfo;
+    public StaticInfo refreshStaticInfo() {
+        return staticInfoUtil.refreshStaticInfo();
+
     }
 
     /**

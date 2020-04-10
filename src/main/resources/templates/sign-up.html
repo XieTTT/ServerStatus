@@ -61,7 +61,8 @@
                             <i class="material-icons">lock</i>
                         </span>
                     <div class="form-line">
-                        <input type="password" class="form-control" name="password" minlength="6" placeholder="Password"
+                        <input type="password" id="password" class="form-control" name="password" minlength="6"
+                               placeholder="Password"
                                required>
                     </div>
                 </div>
@@ -70,7 +71,7 @@
                             <i class="material-icons">lock</i>
                         </span>
                     <div class="form-line">
-                        <input type="password" class="form-control" name="confirm" minlength="6"
+                        <input type="password" id="confirmPassword" class="form-control" name="confirm" minlength="6"
                                placeholder="Confirm Password" required>
                     </div>
                 </div>
@@ -109,14 +110,20 @@
 
     $(function () {
         $("#register").submit(function () {
-            showNotification("bg-blue-grey", "Registering", "top", "center", "", "");
-            $.post("register", $(this).serialize(), function (data) {
-                if (data.flag) {
-                    location.href = "sign-in";
-                } else {
-                    showNotification("alert-danger", data.msg, "top", "center", "", "");
-                }
-            }, "json");
+            const confirmPassword = $("#confirmPassword").val();
+            const password = $("#password").val();
+            if (confirmPassword !== password) {
+                showNotification("alert-danger", "Confirm Your Password Please!", "top", "center", "", "");
+            } else {
+                showNotification("bg-blue-grey", "Registering", "top", "center", "", "");
+                $.post("register", $(this).serialize(), function (data) {
+                    if (data.flag) {
+                        location.href = "sign-in";
+                    } else {
+                        showNotification("alert-danger", data.msg, "top", "center", "", "");
+                    }
+                }, "json");
+            }
             return false;
         });
 

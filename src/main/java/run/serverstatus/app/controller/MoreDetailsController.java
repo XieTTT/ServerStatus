@@ -31,7 +31,7 @@ public class MoreDetailsController {
      */
     @RequestMapping("moreDetails")
     public String moreDetails(Map<String, Object> map) {
-        StaticInfo staticInfo = moreDetailsService.findStaticInfo();
+        StaticInfo staticInfo = moreDetailsService.refreshStaticInfo();
         map.put("staticInfo", staticInfo);
         LineChartInfo lineChartInfoMin = moreDetailsService.findLineChartInfoMin();
         map.put("lineChartInfoMin", lineChartInfoMin);
