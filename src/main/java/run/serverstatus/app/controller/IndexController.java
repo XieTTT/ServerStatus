@@ -2,6 +2,8 @@ package run.serverstatus.app.controller;
 
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.HttpResponse;
+import org.springframework.boot.web.servlet.server.Session;
 import oshi.util.Util;
 import run.serverstatus.app.entities.properties.Account;
 import run.serverstatus.app.service.Impl.IndexServiceImpl;
@@ -9,7 +11,9 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,23 +34,30 @@ public class IndexController {
     }
 
     @RequestMapping("/")
-    public String index() {
+    public String index(HttpSession session) {
         if (indexService.isFirstTimeSignIn()) {
             return "sign-up";
         } else {
-            return "sign-in";
+            if (session.getAttribute("account") != null) {
+                return "redirect:/home";
+            } else {
+                return "sign-in";
+            }
         }
     }
 
 
     @PostMapping("/login")
     public String login(@RequestParam String username, @RequestParam String password, HttpServletRequest request,
-                        Map<String, Object> map, HttpSession session) {
+                        Map<String, Object> map, HttpSession session, HttpServletResponse response) {
         Account account = indexService.findAccountByUsernameAndPassword(username, password);
         if (account != null && account.getPassword().equals(password)) {
             String rememberMe = request.getParameter("rememberMe");
             if (rememberMe != null && rememberMe.equals("true")) {
-                session.setMaxInactiveInterval(60 * 60 * 24 * 15);//15 days
+                Cookie jsessionid = new Cookie("JSESSIONID", session.getId());
+                jsessionid.setMaxAge(60 * 60 * 24 * 7);//7 days
+                session.setMaxInactiveInterval(60 * 60 * 24 * 7);//7 days
+                response.addCookie(jsessionid);
             }
             session.setAttribute("account", account);
             return "redirect:/home";
@@ -61,10 +72,10 @@ public class IndexController {
     @ResponseBody
     public String register(@RequestParam String username, @RequestParam String password, @RequestParam String recipient) {
         log.info(username + "    " + password + "  " + recipient);
-        if (!indexService.isFirstTimeSignUp()){
+        if (!indexService.isFirstTimeSignUp()) {
             HashMap<String, Object> map = new HashMap<>();
             map.put("flag", false);
-            map.put("msg","Sorry, Only one account is allowed！");
+            map.put("msg", "Sorry, Only one account is allowed！");
             return JSON.toJSONString(map);
         }
         Account account = context.getBean("account", Account.class);
@@ -79,5 +90,11 @@ public class IndexController {
         HashMap<String, Object> map = new HashMap<>();
         map.put("flag", true);
         return JSON.toJSONString(map);
+    }
+
+    @RequestMapping("/exit")
+    public String exit(HttpSession session) {
+        session.removeAttribute("account");
+        return "redirect:/";
     }
 }
