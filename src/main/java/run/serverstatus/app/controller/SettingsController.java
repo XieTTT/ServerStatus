@@ -26,6 +26,11 @@ public class SettingsController {
         this.settingsService = settingsService;
     }
 
+    @RequestMapping("/settings")
+    public String settings() {
+        return "settings";
+    }
+
     /**
      * appSettings controller
      *

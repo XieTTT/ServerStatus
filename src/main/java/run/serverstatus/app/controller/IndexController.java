@@ -46,6 +46,16 @@ public class IndexController {
         }
     }
 
+    @RequestMapping("/sign-in")
+    public String signIn() {
+        return "sign-in";
+    }
+
+    @RequestMapping("/sign-up")
+    public String signUp() {
+        return "sign-up";
+    }
+
 
     @PostMapping("/login")
     public String login(@RequestParam String username, @RequestParam String password, HttpServletRequest request,
@@ -67,6 +77,11 @@ public class IndexController {
         }
     }
 
+    @RequestMapping("/exit")
+    public String exit(HttpSession session) {
+        session.invalidate();
+        return "redirect:/";
+    }
 
     @PostMapping("/register")
     @ResponseBody
@@ -92,9 +107,5 @@ public class IndexController {
         return JSON.toJSONString(map);
     }
 
-    @RequestMapping("/exit")
-    public String exit(HttpSession session) {
-        session.removeAttribute("account");
-        return "redirect:/";
-    }
+
 }

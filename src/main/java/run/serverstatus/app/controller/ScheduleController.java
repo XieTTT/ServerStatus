@@ -1,5 +1,6 @@
 package run.serverstatus.app.controller;
 
+import org.springframework.web.bind.annotation.RequestMapping;
 import run.serverstatus.app.service.Impl.ScheduledServiceImpl;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+
 @Slf4j
 @Controller
 public class ScheduleController {
@@ -19,6 +21,11 @@ public class ScheduleController {
         this.scheduledService = scheduledService;
     }
 
+    @RequestMapping("schedule")
+    public String schedule() {
+        return "schedule";
+    }
+
     @PostMapping("scheduleSettings")
     @ResponseBody
     public String schedule(HttpServletRequest request) {
@@ -26,7 +33,7 @@ public class ScheduleController {
         String temperatureWarning = request.getParameter("temperatureWarning");
         scheduledService.scheduleSettings(timedDuration, temperatureWarning);
         HashMap<String, Object> map = new HashMap<>();
-        log.info("scheduleSettings -> timedDuration: "+timedDuration +"  ; temperatureWarning: "+temperatureWarning );
+        log.info("scheduleSettings -> timedDuration: " + timedDuration + "  ; temperatureWarning: " + temperatureWarning);
         map.put("flag", true);
         map.put("info", "scheduleSettings updated successfully ~");
         return JSON.toJSONString(map);

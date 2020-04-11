@@ -15,20 +15,20 @@ public class MvcConfiguration implements WebMvcConfigurer {
     public LocaleResolver localeResolver() {
         return new MyLocaleResolver();
     }
-
-    @Override
+    /*TODO 在jar包运行时这个"addViewControllers"不起作用，idea却可以*/
+/*    @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/sign-in").setViewName("/sign-in");
         registry.addViewController("/sign-up").setViewName("/sign-up");
         registry.addViewController("/settings").setViewName("/settings");
         registry.addViewController("/schedule").setViewName("/schedule");
-    }
+    }*/
 
     //注册拦截器
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new LoginHandlerInterception()).addPathPatterns("/**")
-                .excludePathPatterns( "/","/sign-in","/sign-up","/login","/static/**","/register", "/webjars/**");
+                .excludePathPatterns("/", "/sign-in", "/sign-up", "/login", "/static/**", "/register", "/webjars/**");
 
     }
 
