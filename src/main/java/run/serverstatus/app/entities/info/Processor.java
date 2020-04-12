@@ -1,4 +1,4 @@
-package run.serverstatus.app.entities;
+package run.serverstatus.app.entities.info;
 
 import lombok.Data;
 import org.springframework.context.annotation.Scope;

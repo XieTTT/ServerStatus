@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import run.serverstatus.app.entities.info.StaticInfo;
 import org.springframework.stereotype.Component;
 import run.serverstatus.app.entities.properties.AppSettings;
+import run.serverstatus.app.utils.infoUtils.baseUtil.InfoUtil;
 
 @Slf4j
 @Component

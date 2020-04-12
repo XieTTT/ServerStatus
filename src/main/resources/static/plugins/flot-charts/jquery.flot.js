@@ -560,7 +560,7 @@ Licensed under the MIT license.
                     points: {
                         show: false,
                         radius: 3,
-                        lineWidth: 2, // in pixels
+                        lineWidth: 1, // in pixels
                         fill: true,
                         fillColor: "#ffffff",
                         symbol: "circle" // or callback
@@ -568,7 +568,7 @@ Licensed under the MIT license.
                     lines: {
                         // we don't put in show: false so we can see
                         // whether lines were actively disabled
-                        lineWidth: 2, // in pixels
+                        lineWidth: 1, // in pixels
                         fill: false,
                         fillColor: null,
                         steps: false
@@ -577,7 +577,7 @@ Licensed under the MIT license.
                     },
                     bars: {
                         show: false,
-                        lineWidth: 2, // in pixels
+                        lineWidth: 1, // in pixels
                         barWidth: 1, // in units of the x axis
                         fill: true,
                         fillColor: null,

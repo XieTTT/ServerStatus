@@ -1,9 +1,9 @@
-package run.serverstatus.app.utils.infoUtils;
+package run.serverstatus.app.utils.infoUtils.baseUtil;
 
 import oshi.software.os.*;
 import run.serverstatus.app.config.properties.ServerStatusProperties;
 import run.serverstatus.app.entities.info.TimedInfo;
-import run.serverstatus.app.entities.Processor;
+import run.serverstatus.app.entities.info.Processor;
 import run.serverstatus.app.utils.HttpClientUtil;
 import com.profesorfalken.jsensors.JSensors;
 import com.profesorfalken.jsensors.model.components.Components;
@@ -213,7 +213,7 @@ public class InfoUtil {
     }
 
     //Get NetworkTraffic
-    public List<Long> networkTraffic(int language) {
+    public List<Long> networkTraffic() {
         long s = System.currentTimeMillis();
         boolean flag = false;
         long bytesSent = 0;
@@ -226,19 +226,15 @@ public class InfoUtil {
             networkIF.updateAttributes();
             long bytesSent1 = networkIF.getBytesSent();
             long bytesRecv1 = networkIF.getBytesRecv();
-            Util.sleep(1000);
+            Util.sleep(800);
             networkIF.updateAttributes();
             long bytesSent2 = networkIF.getBytesSent();
             long bytesRecv2 = networkIF.getBytesRecv();
-            bytesSent = (bytesSent2 - bytesSent1) / 1024;
-            bytesRecv = (bytesRecv2 - bytesRecv1) / 1024;
+            bytesSent = (long) ((bytesSent2 - bytesSent1) / 1024*1.25);
+            bytesRecv = (long) ((bytesRecv2 - bytesRecv1) / 1024*1.25);
         }
         if (!flag) {
-            if (language == 0) {
-                log.info("获取网速失败  ..." + (System.currentTimeMillis() - s) + " ms");
-            } else {
-                log.info("failed to get networkTraffic..." + (System.currentTimeMillis() - s) + " ms");
-            }
+            log.info("failed to get networkTraffic..." + (System.currentTimeMillis() - s) + " ms");
             return Arrays.asList(-1L, -1L);
         }
         /*log.info("Got NetworkTraffic" + " spend: " + (System.currentTimeMillis() - s) + " ms");*/

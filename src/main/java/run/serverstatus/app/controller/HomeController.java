@@ -1,6 +1,6 @@
 package run.serverstatus.app.controller;
 
-import run.serverstatus.app.entities.Processor;
+import run.serverstatus.app.entities.info.Processor;
 import run.serverstatus.app.entities.info.TimedInfo;
 import run.serverstatus.app.service.Impl.HomeServiceImpl;
 import org.springframework.stereotype.Controller;

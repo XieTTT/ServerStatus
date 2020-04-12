@@ -131,7 +131,60 @@
 </section>
 
 <section class="content">
-
+    <!-- Multiple Axis -->
+    <div class="row clearfix">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="card">
+                <div class="header">
+                    <h2>NETWORK SPEED IN</h2>
+                    <ul class="header-dropdown m-r--5">
+                        <li class="dropdown">
+                            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                               aria-haspopup="true" aria-expanded="false">
+                                <i class="material-icons">more_vert</i>
+                            </a>
+                            <ul class="dropdown-menu pull-right">
+                                <li><a href="javascript:void(0);">Action</a></li>
+                                <li><a href="javascript:void(0);">Another action</a></li>
+                                <li><a href="javascript:void(0);">Something else here</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="body">
+                    <div id="in" class="flot-chart"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- #END# Multiple Axis -->
+    <!-- Multiple Axis -->
+    <div class="row clearfix">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="card">
+                <div class="header">
+                    <h2>NETWORK SPEED OUT</h2>
+                    <ul class="header-dropdown m-r--5">
+                        <li class="dropdown">
+                            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                               aria-haspopup="true" aria-expanded="false">
+                                <i class="material-icons">more_vert</i>
+                            </a>
+                            <ul class="dropdown-menu pull-right">
+                                <li><a href="javascript:void(0);">Action</a></li>
+                                <li><a href="javascript:void(0);">Another action</a></li>
+                                <li><a href="javascript:void(0);">Something else here</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="body">
+                    <div id="out" class="flot-chart"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- #END# Multiple Axis -->
     <!-- CPU Usage -->
     <div class="row clearfix">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -204,33 +257,7 @@
         </div>
     </div>
     <!-- #END# CPU Usage -->
-    <!-- Multiple Axis -->
-    <div class="row clearfix">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <div class="card">
-                <div class="header">
-                    <h2>MULTIPLE AXIS</h2>
-                    <ul class="header-dropdown m-r--5">
-                        <li class="dropdown">
-                            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                               aria-haspopup="true" aria-expanded="false">
-                                <i class="material-icons">more_vert</i>
-                            </a>
-                            <ul class="dropdown-menu pull-right">
-                                <li><a href="javascript:void(0);">Action</a></li>
-                                <li><a href="javascript:void(0);">Another action</a></li>
-                                <li><a href="javascript:void(0);">Something else here</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-                <div class="body">
-                    <div id="multiple_axis_chart" class="flot-chart"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- #END# Multiple Axis -->
+
 </section>
 
 <!-- Jquery Core Js -->
@@ -256,7 +283,7 @@
 
 <script th:inline="javascript">
     //Real time ==========================================================================================
-    const plot1 = $.plot('#real_time_chart1', [ /*[[${cpuTemp}]]*/[[0.0, 25], [1.0, 27], [2, 35], [3, 19], [4, 15]]], {
+    const plot1 = $.plot('#real_time_chart1', [ /*[[${cpuTempArray}]]*/[[0.0, 25], [1.0, 27], [2, 35], [3, 19], [4, 15]]], {
         series: {
             shadowSize: 0,
             color: 'rgb(0, 188, 212)'
@@ -278,7 +305,7 @@
             max: 60
         }
     });
-    const plot2 = $.plot('#real_time_chart2', [ /*[[${cpuLoad}]]*/[[0.0, 25], [1.0, 27], [2, 35], [3, 19], [4, 15]]], {
+    const plot2 = $.plot('#real_time_chart2', [ /*[[${cpuLoadArray}]]*/[[0.0, 25], [1.0, 27], [2, 35], [3, 19], [4, 15]]], {
         series: {
             shadowSize: 0,
             color: 'rgb(0, 188, 212)'
@@ -308,9 +335,29 @@
         return v.toFixed(axis.tickDecimals) ;
     }
 
-    $.plot('#multiple_axis_chart', [
-        {data: speedIn, label: 'Left: In (kb/s)', color: '#E91E63'},
-        {data: speedOut, label: 'Right: Out (kb/s)', yaxis: 2, color: '#00BCD4'}
+    $.plot('#in', [
+        {data: speedIn, label: 'In (kb/s)', color: '#8BC34A'},
+    ], {
+        xaxes: [{mode: 'time'}],
+        yaxes: [{min: 0}, {
+            alignTicksWi6thAxis: 1,
+            position: 'right',
+            tickFormatter: euroFormatter
+        }],
+        grid: {
+            hoverable: true,
+            autoHighlight: false,
+            borderColor: '#f3f3f3',
+            borderWidth: 1,
+            tickColor: '#f3f3f3'
+        },
+        legend: {position: 'sw'}
+    });
+    //====================================================================================================
+
+
+    $.plot('#out', [
+        {data: speedOut, label: ' Out (kb/s)', color: '#009688'},
     ], {
         xaxes: [{mode: 'time'}],
         yaxes: [{min: 0}, {

@@ -1,6 +1,6 @@
 package run.serverstatus.app.service;
 
-import run.serverstatus.app.entities.Processor;
+import run.serverstatus.app.entities.info.Processor;
 import run.serverstatus.app.entities.info.TimedInfo;
 
 import java.util.HashMap;

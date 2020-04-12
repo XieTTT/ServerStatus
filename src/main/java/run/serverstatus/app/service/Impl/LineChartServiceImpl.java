@@ -1,10 +1,12 @@
 package run.serverstatus.app.service.Impl;
 
 import run.serverstatus.app.entities.info.LineChartInfo;
+import run.serverstatus.app.entities.info.NetworkSpeed;
 import run.serverstatus.app.repository.info.LineChartRepository;
 import run.serverstatus.app.service.LineChartService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
 
 import java.util.*;
 
@@ -13,9 +15,12 @@ import java.util.*;
 public class LineChartServiceImpl implements LineChartService {
 
     private final LineChartRepository lineChartRepository;
+    private final NetworkSpeed networkSpeed;
 
-    public LineChartServiceImpl(LineChartRepository lineChartRepository) {
+    public LineChartServiceImpl(LineChartRepository lineChartRepository,
+                                NetworkSpeed networkSpeed) {
         this.lineChartRepository = lineChartRepository;
+        this.networkSpeed = networkSpeed;
     }
 
     /**
@@ -24,27 +29,14 @@ public class LineChartServiceImpl implements LineChartService {
      * @return list
      */
     @Override
-    public Map<String, List<double[]>> findAllArrayMin(int limit) {
+    public Map<String, Object> findAllArrayMin(int limit) {
         List<LineChartInfo> lineChartInfo = lineChartRepository.findRecentLineChartInfoMinute(limit);
         List<double[]> cpuLoadArray = new LinkedList<>();
         List<double[]> cpuTempArray = new LinkedList<>();
-        List<double[]> netWorkSpeedInArray = new LinkedList<>();
-        List<double[]> netWorkSpeedOutArray = new LinkedList<>();
-        HashMap<String, List<double[]>> map = new HashMap<>();
 
-        for (LineChartInfo lcInfo : lineChartInfo) {
-            double[] in = new double[2];
-            double[] out = new double[2];
-            double longTime = lcInfo.getLongTime() + 1000 * 60 * 60 * 8L;//+ 8 hours -> beijing time
-
-            in[0] = longTime;
-            in[1] = lcInfo.getInternetSpeedIn();
-            netWorkSpeedInArray.add(in);
-
-            out[0] = longTime;
-            out[1] = lcInfo.getInternetSpeedOut();
-            netWorkSpeedOutArray.add(out);
-        }
+        HashMap<String, Object> map = new HashMap<>();
+        LinkedList<long[]> netWorkSpeedInArray = networkSpeed.getInD();
+        LinkedList<long[]> netWorkSpeedOutArray = networkSpeed.getOutD();
         map.put("netWorkSpeedInArray", netWorkSpeedInArray);
         map.put("netWorkSpeedOutArray", netWorkSpeedOutArray);
 
@@ -70,19 +62,19 @@ public class LineChartServiceImpl implements LineChartService {
         return null;
     }
 
-/*    @Override
+    @Deprecated
     public List<List<Double>> findRecentCPUTempMinute() {
         List<LineChartInfo> recentCPUTempMinute = lineChartRepository.findRecentLineChartInfoMinute(30);
         List<List<Double>> cpuTemp = new LinkedList<>();
         for (LineChartInfo lineChartInfo : recentCPUTempMinute) {
             try {
                 double cpuTemperature = lineChartInfo.getCpuTemperature();
-                double longTime = lineChartInfo.getLongTime() + 1000 * 60 * 60 * 8L;*//*+ 8 hours -> beijing time*//*
+                double longTime = lineChartInfo.getLongTime() + 1000 * 60 * 60 * 8L;/*+ 8 hours -> beijing time*/
                 cpuTemp.add(Arrays.asList(longTime, cpuTemperature));
             } catch (NumberFormatException e) {
                 log.info("LineChartServiceImpl.findRecentCPUTempMinute -> NumberFormatException......");
             }
         }
         return cpuTemp;
-    }*/
+    }
 }

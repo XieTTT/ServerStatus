@@ -23,15 +23,11 @@ public class GraphController {
      */
     @RequestMapping("/graph")
     public String graph(Map<String, Object> map) {
-        Map<String, List<double[]>> infoMap = lineChartService.findAllArrayMin(61);
-        List<double[]> cpuLoadArray = infoMap.get("cpuLoadArray");
-        map.put("cpuLoad", cpuLoadArray);
-        List<double[]> cpuTempArray = infoMap.get("cpuTempArray");
-        map.put("cpuTemp", cpuTempArray);
-        List<double[]> netWorkSpeedInArray = infoMap.get("netWorkSpeedInArray");
-        List<double[]> netWorkSpeedOutArray = infoMap.get("netWorkSpeedOutArray");
-        map.put("netWorkSpeedInArray", netWorkSpeedInArray);
-        map.put("netWorkSpeedOutArray", netWorkSpeedOutArray);
+        Map<String, Object> infoMap = lineChartService.findAllArrayMin(61);
+        map.put("cpuLoadArray", infoMap.get("cpuLoadArray"));
+        map.put("cpuTempArray", infoMap.get("cpuTempArray"));
+        map.put("netWorkSpeedInArray", infoMap.get("netWorkSpeedInArray"));
+        map.put("netWorkSpeedOutArray", infoMap.get("netWorkSpeedOutArray"));
         return "graph";
     }
 }

@@ -1,6 +1,5 @@
 package run.serverstatus.app.entities.info;
 
-import run.serverstatus.app.entities.Processor;
 import lombok.Data;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;

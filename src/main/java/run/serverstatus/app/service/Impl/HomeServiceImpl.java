@@ -1,6 +1,6 @@
 package run.serverstatus.app.service.Impl;
 
-import run.serverstatus.app.entities.Processor;
+import run.serverstatus.app.entities.info.Processor;
 import run.serverstatus.app.entities.info.StaticInfo;
 import run.serverstatus.app.entities.info.LineChartInfo;
 import run.serverstatus.app.entities.info.TimedInfo;

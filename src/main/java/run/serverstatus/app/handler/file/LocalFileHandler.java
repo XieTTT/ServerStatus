@@ -14,5 +14,4 @@ public class LocalFileHandler {
         boolean flag = file.mkdir();
         logger.info("Create spring config additional location: " + flag);
     }
-
 }

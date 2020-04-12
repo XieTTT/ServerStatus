@@ -3,6 +3,7 @@ package run.serverstatus.app.utils.infoUtils;
 import lombok.extern.slf4j.Slf4j;
 import run.serverstatus.app.entities.info.LineChartInfo;
 import org.springframework.stereotype.Component;
+import run.serverstatus.app.utils.infoUtils.baseUtil.InfoUtil;
 
 import java.util.List;
 
@@ -41,7 +42,7 @@ public class LineChartInfoUtil {
 
         //Get networkSpeed
         Thread got_networkTraffic_thread = new Thread(() -> {
-            List<Long> infos = infoUtil.networkTraffic(language);
+            List<Long> infos = infoUtil.networkTraffic();
             lineChartInfo.setInternetSpeedIn(infos.get(0));
             lineChartInfo.setInternetSpeedOut(infos.get(1));
 

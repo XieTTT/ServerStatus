@@ -1,6 +1,6 @@
 package run.serverstatus.app.repository;
 
-import run.serverstatus.app.entities.Processor;
+import run.serverstatus.app.entities.info.Processor;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;

@@ -10,7 +10,7 @@ public interface LineChartService {
      *
      * @return list
      */
-    Map<String, List<double[]>> findAllArrayMin(int limit);
+    Map<String, Object> findAllArrayMin(int limit);
 
     List<double[]> findCPULoadArrayMin(int limit);
 
