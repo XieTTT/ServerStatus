@@ -21,8 +21,8 @@ public class NetworkSpeedInfoUtil {
         long[] speedOut = new long[2];
         Util.sleep(50);/*TODO */
         long time = System.currentTimeMillis();
-        speedIn[0] = time;
-        speedOut[0] = time;
+        speedIn[0] = time + 1000 * 60 * 60 * 8;//beijing time
+        speedOut[0] = time + 1000 * 60 * 60 * 8;//beijing time
         List<Long> list = infoUtil.networkTraffic();
         if (list.get(0) != -1) {
             speedIn[1] = list.get(0);

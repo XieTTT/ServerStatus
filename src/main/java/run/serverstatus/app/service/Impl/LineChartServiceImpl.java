@@ -35,8 +35,8 @@ public class LineChartServiceImpl implements LineChartService {
         List<double[]> cpuTempArray = new LinkedList<>();
 
         HashMap<String, Object> map = new HashMap<>();
-        LinkedList<long[]> netWorkSpeedInArray = networkSpeed.getInD();
-        LinkedList<long[]> netWorkSpeedOutArray = networkSpeed.getOutD();
+        LinkedList<long[]> netWorkSpeedInArray = networkSpeed.getInH();
+        LinkedList<long[]> netWorkSpeedOutArray = networkSpeed.getOutH();
         map.put("netWorkSpeedInArray", netWorkSpeedInArray);
         map.put("netWorkSpeedOutArray", netWorkSpeedOutArray);
 

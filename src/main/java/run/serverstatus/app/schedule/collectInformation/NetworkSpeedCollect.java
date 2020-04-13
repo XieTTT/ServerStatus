@@ -24,10 +24,10 @@ public class NetworkSpeedCollect {
     @Scheduled(cron = "* * * * * ?")
     public void collect() {
         List<long[]> list = networkSpeedInfoUtil.collectNetworkSpeed();
-        networkSpeed.addInD(list.get(0));
-        networkSpeed.addOutD(list.get(1));
-        if (networkSpeed.getInD().size() > 3600) {
-            networkSpeed.getInD().pop();
+        networkSpeed.addInH(list.get(0));
+        networkSpeed.addOutH(list.get(1));
+        if (networkSpeed.getInH().size() > 180) {
+            networkSpeed.getInH().pop();
         }
     }
 
