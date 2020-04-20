@@ -39,9 +39,7 @@
 ![image.png](http://www.xieetian.cn/upload/2020/4/image-0992a669a187489487579522ffde6ccf.png)
 
 [Server-Status 演示 www.serverstatus.run](http://www.serverstatus.run)
-
 **account:**   admin
-
 **password:**  123456
 
 未写完，待续...
