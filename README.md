@@ -1,8 +1,6 @@
 # Server-Status
 不知道取什么名字好，就直接叫这个了。功能如其名，就是发送服务器状态的一个App，使用的是JAVA语言，所有支持多平台（Linux、Windows和Unix）。
 
-[Server-Status镜像](http://www.xieetian.cn/upload/2020/4/server-status-87707eb3c79e4228b15556b378963e5a.jar)
-
 **实现的功能**
 - 可以定时发送很多服务器的信息。通过邮件发送，使用的是465端口，在阿里云服务器上也能发邮件（阿里云自动屏蔽25端口的邮件，用25就发不出去邮件了）。
 - 可以通过浏览器查看详细信息，支持在浏览器设置参数（比如邮箱收件人、定多长时间发送一次邮件、或者CPU温度达到多少时发送提醒邮件等等）。
@@ -44,5 +42,7 @@
 
 **账号:**   admin
 **密码:**  123456
+
+[Server-Status jar包 jdk1.8以上](http://www.xieetian.cn/upload/2020/4/server-status-87707eb3c79e4228b15556b378963e5a.jar)
 
 未写完，待续...
