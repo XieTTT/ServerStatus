@@ -12,8 +12,9 @@ public interface LineChartService {
      */
     Map<String, Object> findAllArrayMin(int limit);
 
-    List<double[]> findCPULoadArrayMin(int limit);
+    List<long[]> findNetWorkSpeedIn(String period);
 
+    List<long[]> findNetWorkSpeedOut(String period);
 
 
 }

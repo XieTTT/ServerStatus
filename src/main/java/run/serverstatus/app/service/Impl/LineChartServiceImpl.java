@@ -35,8 +35,8 @@ public class LineChartServiceImpl implements LineChartService {
         List<double[]> cpuTempArray = new LinkedList<>();
 
         HashMap<String, Object> map = new HashMap<>();
-        LinkedList<long[]> netWorkSpeedInArray = networkSpeed.getInH();
-        LinkedList<long[]> netWorkSpeedOutArray = networkSpeed.getOutH();
+        LinkedList<long[]> netWorkSpeedInArray = networkSpeed.getInm();
+        LinkedList<long[]> netWorkSpeedOutArray = networkSpeed.getOutm();
         map.put("netWorkSpeedInArray", netWorkSpeedInArray);
         map.put("netWorkSpeedOutArray", netWorkSpeedOutArray);
 
@@ -58,8 +58,35 @@ public class LineChartServiceImpl implements LineChartService {
     }
 
     @Override
-    public List<double[]> findCPULoadArrayMin(int limit) {
-        return null;
+    public List<long[]> findNetWorkSpeedIn(String period) {
+        switch (period) {
+            case "last4min":
+                return networkSpeed.getInm();
+            case "last1hour":
+                return networkSpeed.getInH();
+            case "last24hours":
+                return networkSpeed.getInD();
+            case "lastMonth":
+                return networkSpeed.getInM();
+            default:
+                return null;
+        }
+    }
+
+    @Override
+    public List<long[]> findNetWorkSpeedOut(String period) {
+        switch (period) {
+            case "last4min":
+                return networkSpeed.getOutm();
+            case "last1hour":
+                return networkSpeed.getOutH();
+            case "last24hours":
+                return networkSpeed.getOutD();
+            case "lastMonth":
+                return networkSpeed.getOutM();
+            default:
+                return null;
+        }
     }
 
     @Deprecated

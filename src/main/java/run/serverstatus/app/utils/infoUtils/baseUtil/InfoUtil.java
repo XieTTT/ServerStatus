@@ -218,8 +218,8 @@ public class InfoUtil {
         boolean flag = false;
         long bytesSent = 0;
         long bytesRecv = 0;
-        for (NetworkIF networkIF : networkIFS) {
-            if (networkIF.getIPv4addr().length < 1) {
+        for (NetworkIF networkIF : networkIFS) {      //Eliminate the impact of virtual network card
+            if (networkIF.getIPv4addr().length < 1 || networkIF.getDisplayName().contains("Virtual")) {
                 continue;
             }
             flag = true;
@@ -230,14 +230,37 @@ public class InfoUtil {
             networkIF.updateAttributes();
             long bytesSent2 = networkIF.getBytesSent();
             long bytesRecv2 = networkIF.getBytesRecv();
-            bytesSent = (long) ((bytesSent2 - bytesSent1) / 1024*1.25);
-            bytesRecv = (long) ((bytesRecv2 - bytesRecv1) / 1024*1.25);
+            bytesSent = (long) ((bytesSent2 - bytesSent1) / 1024 * 1.25);
+            bytesRecv = (long) ((bytesRecv2 - bytesRecv1) / 1024 * 1.25);
         }
         if (!flag) {
             log.info("failed to get networkTraffic..." + (System.currentTimeMillis() - s) + " ms");
             return Arrays.asList(-1L, -1L);
         }
-        /*log.info("Got NetworkTraffic" + " spend: " + (System.currentTimeMillis() - s) + " ms");*/
+        /* log.info("Got NetworkTraffic" + " spend: " + (System.currentTimeMillis() - s) + " ms");*/
+        return Arrays.asList(bytesRecv, bytesSent);
+    }
+
+
+    //Get NetworkTraffic present
+    public List<Long> networkTrafficPresent() {
+        boolean flag = false;
+        long bytesSent = 0;
+        long bytesRecv = 0;
+        for (NetworkIF networkIF : networkIFS) {      //Eliminate the impact of virtual network card
+            if (networkIF.getIPv4addr().length < 1 || networkIF.getDisplayName().contains("Virtual")) {
+                continue;
+            }
+            flag = true;
+            networkIF.updateAttributes();
+            bytesSent = networkIF.getBytesSent();
+            bytesRecv = networkIF.getBytesRecv();
+        }
+        if (!flag) {
+            log.info("failed to get networkTraffic...");
+            return Arrays.asList(-1L, -1L);
+        }
+        /* log.info("Got NetworkTraffic" + " spend: " + (System.currentTimeMillis() - s) + " ms");*/
         return Arrays.asList(bytesRecv, bytesSent);
     }
 

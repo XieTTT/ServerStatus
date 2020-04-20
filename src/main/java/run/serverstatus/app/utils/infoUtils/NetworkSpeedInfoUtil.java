@@ -1,12 +1,13 @@
 package run.serverstatus.app.utils.infoUtils;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import oshi.util.Util;
 import run.serverstatus.app.utils.infoUtils.baseUtil.InfoUtil;
 
 import java.util.Arrays;
 import java.util.List;
 
+@Slf4j
 @Component
 public class NetworkSpeedInfoUtil {
     private final InfoUtil infoUtil;
@@ -17,16 +18,22 @@ public class NetworkSpeedInfoUtil {
     }
 
     public List<long[]> collectNetworkSpeed() {
+        return getLongs(infoUtil.networkTraffic());
+    }
+
+    public List<long[]> collectNetworkSpeedPresent() {
+        return getLongs(infoUtil.networkTrafficPresent());
+    }
+
+    private List<long[]> getLongs(List<Long> longs) {
         long[] speedIn = new long[2];
         long[] speedOut = new long[2];
-        Util.sleep(50);/*TODO */
         long time = System.currentTimeMillis();
         speedIn[0] = time + 1000 * 60 * 60 * 8;//beijing time
         speedOut[0] = time + 1000 * 60 * 60 * 8;//beijing time
-        List<Long> list = infoUtil.networkTraffic();
-        if (list.get(0) != -1) {
-            speedIn[1] = list.get(0);
-            speedOut[1] = list.get(1);
+        if (longs.get(0) != -1) {
+            speedIn[1] = longs.get(0);
+            speedOut[1] = longs.get(1);
             return Arrays.asList(speedIn, speedOut);
         }
         return null;

@@ -137,20 +137,22 @@
             <div class="card">
                 <div class="header">
                     <h2>NETWORK SPEED IN</h2>
-                    <ul class="header-dropdown m-r--5">
-                        <li class="dropdown">
-                            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                               aria-haspopup="true" aria-expanded="false">
-                                <i class="material-icons">more_vert</i>
-                            </a>
-                            <ul class="dropdown-menu pull-right">
-                                <li><a href="javascript:void(0);">Action</a></li>
-                                <li><a href="javascript:void(0);">Another action</a></li>
-                                <li><a href="javascript:void(0);">Something else here</a></li>
-                            </ul>
-                        </li>
-                    </ul>
+                    <div class="header-dropdown m-r--6 col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-default waves-effect" id="last4min"
+                                    style="color:#00b0e4;">last 4 min
+                            </button>
+                            <button type="button" class="btn btn-default waves-effect" id="last1hour">last hour
+                            </button>
+                            <button type="button" class="btn btn-default waves-effect" id="last24hours">last 24
+                                hours
+                            </button>
+                            <button type="button" class="btn btn-default waves-effect" id="lastMonth">last month
+                            </button>
+                        </div>
+                    </div>
                 </div>
+
                 <div class="body">
                     <div id="in" class="flot-chart"></div>
                 </div>
@@ -164,19 +166,6 @@
             <div class="card">
                 <div class="header">
                     <h2>NETWORK SPEED OUT</h2>
-                    <ul class="header-dropdown m-r--5">
-                        <li class="dropdown">
-                            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                               aria-haspopup="true" aria-expanded="false">
-                                <i class="material-icons">more_vert</i>
-                            </a>
-                            <ul class="dropdown-menu pull-right">
-                                <li><a href="javascript:void(0);">Action</a></li>
-                                <li><a href="javascript:void(0);">Another action</a></li>
-                                <li><a href="javascript:void(0);">Something else here</a></li>
-                            </ul>
-                        </li>
-                    </ul>
                 </div>
                 <div class="body">
                     <div id="out" class="flot-chart"></div>
@@ -196,23 +185,7 @@
                                 <small>The last hour cpu temperature </small>
                             </h2>
                         </div>
-                        <div class="col-xs-12 col-sm-6 align-right">
-
-                        </div>
                     </div>
-                    <ul class="header-dropdown m-r--5">
-                        <li class="dropdown">
-                            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown"
-                               role="button" aria-haspopup="true" aria-expanded="false">
-                                <i class="material-icons">more_vert</i>
-                            </a>
-                            <ul class="dropdown-menu pull-right">
-                                <li><a href="javascript:void(0);">Action</a></li>
-                                <li><a href="javascript:void(0);">Another action</a></li>
-                                <li><a href="javascript:void(0);">Something else here</a></li>
-                            </ul>
-                        </li>
-                    </ul>
                 </div>
                 <div class="body">
                     <div id="real_time_chart1" class="dashboard-flot-chart"></div>
@@ -232,23 +205,7 @@
                                 <small>The last hour CPU usage</small>
                             </h2>
                         </div>
-                        <div class="col-xs-12 col-sm-6 align-right">
-
-                        </div>
                     </div>
-                    <ul class="header-dropdown m-r--5">
-                        <li class="dropdown">
-                            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown"
-                               role="button" aria-haspopup="true" aria-expanded="false">
-                                <i class="material-icons">more_vert</i>
-                            </a>
-                            <ul class="dropdown-menu pull-right">
-                                <li><a href="javascript:void(0);">Action</a></li>
-                                <li><a href="javascript:void(0);">Another action</a></li>
-                                <li><a href="javascript:void(0);">Something else here</a></li>
-                            </ul>
-                        </li>
-                    </ul>
                 </div>
                 <div class="body">
                     <div id="real_time_chart2" class="dashboard-flot-chart"></div>
@@ -332,7 +289,7 @@
     var speedOut =/*[[${netWorkSpeedOutArray}]]*/ [[]];
 
     function euroFormatter(v, axis) {
-        return v.toFixed(axis.tickDecimals) ;
+        return v.toFixed(axis.tickDecimals);
     }
 
     $.plot('#in', [
@@ -354,8 +311,6 @@
         legend: {position: 'sw'}
     });
     //====================================================================================================
-
-
     $.plot('#out', [
         {data: speedOut, label: ' Out (kb/s)', color: '#009688'},
     ], {
@@ -374,7 +329,107 @@
         },
         legend: {position: 'sw'}
     });
-    //====================================================================================================
+    //==================================================================================================== style="color: #00b0e4"
+
+    $(function () {
+        $("#last4min").click(function () {
+            change();
+            $.get("period", {'period': 'last4min'}, function (data) {
+                if (data.flag) {
+                    run(data);
+                    $("#last4min").css("color", "#00b0e4");
+                }
+            }, "json");
+        });
+
+
+        $("#last1hour").click(function () {
+            change();
+            $.get("period", {'period': 'last1hour'}, function (data) {
+                if (data.flag) {
+                    run(data);
+                    $("#last1hour").css("color", "#00b0e4");
+                }
+            }, "json");
+        });
+
+        $("#last24hours").click(function () {
+            $.get("period", {'period': 'last24hours'}, function (data) {
+                change();
+                if (data.flag) {
+                    run(data);
+                    $("#last24hours").css("color", "#00b0e4");
+                }
+            }, "json");
+        });
+
+        $("#lastMonth").click(function () {
+            change();
+            $.get("period", {'period': 'lastMonth'}, function (data) {
+                if (data.flag) {
+                    run(data);
+                    $("#lastMonth").css("color", "#00b0e4");
+                }
+            }, "json");
+        });
+
+        function change() {
+            $("#last4min").css("color", "");
+            $("#last1hour").css("color", "");
+            $("#last24hours").css("color", "");
+            $("#lastMonth").css("color", "");
+        }
+    });
+
+    function run(data) {
+        //MULTIPLE AXIS ======================================================================================
+        const speedIn = data.netWorkSpeedIn;
+        const speedOut = data.netWorkSpeedOut;
+
+        function euroFormatter(v, axis) {
+            return v.toFixed(axis.tickDecimals);
+        }
+
+        $.plot('#in', [
+            {data: speedIn, label: 'In (kb/s)', color: '#8BC34A'},
+        ], {
+            xaxes: [{mode: 'time'}],
+            yaxes: [{min: 0}, {
+                alignTicksWi6thAxis: 1,
+                position: 'right',
+                tickFormatter: euroFormatter
+            }],
+            grid: {
+                hoverable: true,
+                autoHighlight: false,
+                borderColor: '#f3f3f3',
+                borderWidth: 1,
+                tickColor: '#f3f3f3'
+            },
+            legend: {position: 'sw'}
+        });
+
+        $.plot('#out', [
+            {data: speedOut, label: 'Out (kb/s)', color: '#8BC34A'},
+        ], {
+            xaxes: [{mode: 'time'}],
+            yaxes: [{min: 0}, {
+                alignTicksWi6thAxis: 1,
+                position: 'right',
+                tickFormatter: euroFormatter
+            }],
+            grid: {
+                hoverable: true,
+                autoHighlight: false,
+                borderColor: '#f3f3f3',
+                borderWidth: 1,
+                tickColor: '#f3f3f3'
+            },
+            legend: {position: 'sw'}
+        });
+        //====================================================================================================
+
+    }
 </script>
 </body>
 </html>

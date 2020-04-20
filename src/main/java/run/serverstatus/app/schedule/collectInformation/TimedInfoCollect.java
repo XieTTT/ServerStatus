@@ -74,14 +74,16 @@ public class TimedInfoCollect {
         } else if (timedEmail == 3) {
             //Every Half Day (00:00 12:00)
             String HH = new SimpleDateFormat("HH").format(date);
-            if (Integer.parseInt(HH) == 12 || Integer.parseInt(HH) == 0) {
+            String mm = new SimpleDateFormat("mm").format(date);
+            if ((Integer.parseInt(HH) == 12 || Integer.parseInt(HH) == 0) && Integer.parseInt(mm) == 0) {
                 startTask();
                 log.info("Every Half Day (00:00 12:00) TimedEmail");
             }
         } else if (timedEmail == 4) {
             //Every Day (00:00)
             String HH = new SimpleDateFormat("HH").format(date);
-            if (Integer.parseInt(HH) == 0) {
+            String mm = new SimpleDateFormat("mm").format(date);
+            if (Integer.parseInt(HH) == 0 && Integer.parseInt(mm) == 0) {
                 startTask();
                 log.info("Every Day (00:00) TimedEmail");
             }

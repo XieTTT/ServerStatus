@@ -40,23 +40,23 @@ public class LineChartInfoUtil {
             lineChartInfo.setCpuTemperature(infoUtil.cpuTemperature(language));
         }, "CPU Tem");
 
-        //Get networkSpeed
+/*        //Get networkSpeed
         Thread got_networkTraffic_thread = new Thread(() -> {
             List<Long> infos = infoUtil.networkTraffic();
             lineChartInfo.setInternetSpeedIn(infos.get(0));
             lineChartInfo.setInternetSpeedOut(infos.get(1));
 
-        }, "NetTraffic");
+        }, "NetTraffic");*/
         //Start thread
         got_cpuLoad_thread.start();
         got_cpu_temperature_thread.start();
-        got_networkTraffic_thread.start();
+/*        got_networkTraffic_thread.start();*/
 
         try {
             //Jon main thread
             got_cpuLoad_thread.join();
             got_cpu_temperature_thread.join();
-            got_networkTraffic_thread.join();
+/*            got_networkTraffic_thread.join();*/
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
