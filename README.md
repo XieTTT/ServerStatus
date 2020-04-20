@@ -30,12 +30,16 @@
 ![image.png](http://www.xieetian.cn/upload/2020/4/image-f7d37d9979884ec1851b78c0b0dc75e7.png)
 
 *折线图*
-![image.png](http://www.xieetian.cn/upload/2020/4/image-f572fed63ac042b6adc4bd0b2b3dc532.png)
+![image](http://www.xieetian.cn/upload/2020/4/image-26685c22440f41c6b4cf074663e77966.png)
 
 *设置页*
 ![image.png](http://www.xieetian.cn/upload/2020/4/image-a11c1d8811b741a0ae07f0085d635278.png)
 
 *温度监控&定时消息页*
 ![image.png](http://www.xieetian.cn/upload/2020/4/image-0992a669a187489487579522ffde6ccf.png)
+
+[Server-Status 演示 www.serverstatus.run](http://www.serverstatus.run)
+account:   admin
+password:  123456
 
 未写完，待续...
