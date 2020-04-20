@@ -43,6 +43,6 @@
 **账号:**   admin
 **密码:**  123456
 
-[Server-Status jar包 jdk1.8以上](http://www.xieetian.cn/upload/2020/4/server-status-87707eb3c79e4228b15556b378963e5a.jar)
+[Server-Status 安装包 依赖jdk1.8及以上](http://www.xieetian.cn/upload/2020/4/server-status-87707eb3c79e4228b15556b378963e5a.jar)
 
 未写完，待续...
